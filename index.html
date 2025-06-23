@@ -1,0 +1,1457 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>IR3D-Bench</title>
+        <link rel="icon" type="image/x-icon" href="/static/img/icons/jellyfish.ico">
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Open Graph -->
+        <meta property="og:url" content="https://IR3D-Bench.github.io/" />
+        <meta property="og:image" content="https://IR3D-Bench.github.io/static/img/IR3D_preview.png" />
+        <meta property="og:title" content="IR3D-Bench: Evaluating Vision-Language Model Scene Understanding as Agentic Inverse Rendering." />
+        <meta property="og:description" content="IR3D-Bench challenges vision-language models to demonstrate real scene understanding by recreating 3D structures from images using tools, not just describing them." />
+
+        <!-- Twitter -->
+        <meta name="twitter:url" content="https://IR3D-Bench.github.io/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://IR3D-Bench.github.io/static/img/IR3D_preview.png" />
+        <meta name="twitter:title" content="IR3D-Bench: Evaluating Vision-Language Model Scene Understanding as Agentic Inverse Rendering." />
+        <meta name="twitter:description" content="We introduce IR3D-Bench, a benchmark that challenges vision-language models to demonstrate real scene understanding by recreating 3D structures from images using tools, not just describing them." />
+
+        <script src="./static/js/distill_template.v2.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+        <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script>
+
+        <script defer="" src="./static/js/hider.js"></script>
+        <script src="./static/js/image_interact.js"></script>
+        <script src="./static/js/switch_videos.js"></script>
+
+        <link rel="stylesheet" href="./static/css/style.css">
+        <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+            onload="renderMathInElement(document.body);"></script>
+        <script defer src="./static/js/fontawesome.all.min.js"></script>
+
+
+        <!-- medium zoom https://github.com/francoischalifour/medium-zoom -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>  <!-- jquery -->
+        <script defer src="./static/js/medium-zoom.min.js"></script>
+        <script defer src="./static/js/zoom.js"></script>
+    </head>
+   
+
+    <body>
+        <div class="header-wrapper">
+            <div class="header-container" id="header-container">
+                <div class="header-content">
+                    <h1 style="margin-top: 0px">IR3D-Bench: Evaluating Vision-Language Model Scene Understanding as Agentic Inverse Rendering</h1>
+                    <h2>
+                        <i>
+                            "What I cannot create, I do not understand." <br>
+                            <span style="display: block; text-align: right;">——Richard Feynman</span>
+                        </i>
+                    </h2>
+                    <div class="button-container">
+                        <!-- replace arxiv -->
+                        <a href="https://arxiv.org/abs/2406.16860" class="button paper-link" target="_blank">
+                            <span class="icon is-small">
+                                <i class="ai ai-arxiv "  style="height: 1.5em;"></i>
+                            </span>
+                            arXiv
+                        </a>
+                        <!-- replace pdf -->
+                        <a href="https://arxiv.org/pdf/2406.16860" class="button paper-link" target="_blank">
+                            <span class="icon is-small"  style="height: 1.5em;">
+                                <i class="fas fa-file-pdf"></i>
+                            </span>
+                            <span>pdf</span>
+                        </a>
+                        <!-- replace image -->
+                        <a href="https://github.com/cambrian-mllm/cambrian" class="button" target="_blank">
+                            <span class="icon is-small"  style="height: 1.5em;">
+                                <i class="fab fa-github"></i>
+                            </span>
+                            <span>Code</span>
+                        </a>
+                        <!-- <br> -->
+                        <a href="https://huggingface.co/collections/nyu-visionx/cambrian-1-models-666fa7116d5420e514b0f23c" class="button" target="_blank">
+                            <span class="icon is-small">
+                                <img src="https://www.logo.wine/a/logo/YouTube/YouTube-Icon-Full-Color-Logo.wine.svg" alt="Hugging Face logo" style="height: 1.5em;">
+                            </span>
+                            <span>Video</span>
+                        </a>
+                        <a href="https://huggingface.co/collections/nyu-visionx/cambrian-data-6667ce801e179b4fbe774e11" class="button" target="_blank">
+                            <span class="icon is-small">
+                                <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face logo" style="height: 1.5em;">
+                            </span>
+                            <span>Data</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="header-image">
+                    <img draggable="false" src="static/img/IR3D.png" alt="Teaser Image" class="teaser-image">
+                </div>
+            </div>
+        </div>
+    <d-article>
+        <div class="byline">
+            <div class="byline-container">
+                <p>
+                    <a href="https://liuhengyu321.github.io/" class="author-link" target="_blank">Hengyu Liu<sup>1,*</sup></a>,
+                    <a href="https://chenxinli001.github.io/" class="author-link" target="_blank">Chenxin Li<sup>1,*</sup></a>,
+                    <a href="https://github.com/Lizx123456" class="author-link" target="_blank">Zhengxin Li<sup>2</sup></a>,
+                    <a href="https://github.com/wind-bell999" class="author-link" target="_blank">Yipeng Wu<sup>2</sup></a>,
+                    <a href="https://wymancv.github.io/wuyang.github.io/" class="author-link" target="_blank">Wuyang Li<sup>3</sup></a>,
+                    <a href="https://visitworld123.github.io/" class="author-link" target="_blank">Zhiqin Yang<sup>1</sup></a>,
+                    <a href="https://openreview.net/profile?id=~Zhenyuan_Zhang2" class="author-link" target="_blank">Zhenyuan Zhang<sup>4</sup></a>,
+                    <a href="https://lyl1015.github.io/" class="author-link" target="_blank">Yunlong Lin<sup>5</sup></a>,
+                    <a href="https://facultyprofiles.hkust.edu.hk/profiles.php?profile=sirui-han-siruihan" class="author-link" target="_blank">Sirui Han<sup>4,&dagger;</sup></a>,
+                    <a href="https://brandonyfeng.github.io/" class="author-link" target="_blank">Brandon Y. Feng<sup>6,&dagger;</sup></a>
+                </p>
+                <p>
+                    <sup>1</sup>CUHK, <sup>2</sup>TJU, <sup>3</sup>EPFL, <sup>4</sup>HKUST, <sup>5</sup>XMU, <sup>6</sup>MIT
+                </p>
+                <p style="text-align: center; margin-bottom: 0;">
+                    <span class="author-note"><sup>*</sup>Equal Contribution</span>&emsp;
+                    <span class="author-note"><sup>&dagger;</sup>Corresponding author</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="l-page video-container" style="margin-left: 4%; margin-bottom: 20px">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/k6aDJUfxs4Q" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <p class="text abstract">
+
+            Vision-language models (VLMs) excel at descriptive tasks, but <strong><a href="#motivation">&sect;whether they truly understand scenes from visual observations remains uncertain</a></strong>.
+
+            We introduce IR3D-Bench, a benchmark challenging VLMs to demonstrate understanding through active creation rather than passive recognition. 
+            Grounded in the <strong><a href="#dataset_intergation">&sect;analysis-by-synthesis paradigm</a></strong>, 
+            IR3D-Bench tasks Vision-Language Agents (VLAs)
+            with actively using programming and rendering tools to recreate the underlying 3D structure of an input image, 
+            achieving  <strong><a href="#inverse_rendering">&sect;agentic inverse rendering through tool use</a></strong>. 
+            
+            This "understanding-by-creating" approach probes the tool-using generative capacity of VLAs, 
+            moving beyond the descriptive or conversational capacity measured by traditional scene understanding benchmarks. 
+
+            We provide <strong><a href="#metrics">&sect;a comprehensive suite of metrics</a></strong> to evaluate geometric accuracy, spatial relations, appearance attributes, and overall plausibility. 
+
+            <strong><a href="#exp">&sect;Initial experimental results</a></strong> on agentic inverse rendering powered by various state-of-the-art VLMs highlight current limitations, particularly in visual precision rather than basic tool usage.
+        </p>
+
+        <div class="icon-row">
+            <a href="#dataset_intergation" class="icon-link">
+                <img src="static/img/icons/recipe.svg" alt="Visual Representation Logo" class="icon">
+                Dataset<br>Integration
+            </a>
+            
+            <a href="#inverse_rendering" class="icon-link">
+                <img src="static/img/icons/visual.svg" alt="Data Logo" class="icon">
+                Inverse<br>Rendering
+            </a>
+            <a href="#metrics" class="icon-link">
+                <img src="static/img/icons/eval.svg" alt="Recipe Logo" class="icon">
+                Benchmark<br>Metrics
+            </a>
+            <a href="#results" class="icon-link">
+                <img src="static/img/icons/data.svg" alt="Connector Logo" class="icon">
+                experimental<br>Results
+            </a>
+        </div>
+
+        <p class="click-hint" style="width: 85%;">
+            <img src="static/img/icons/click.gif" style="width: 1.5rem">
+            <strong>Click to jump to each section.</strong>
+        </p>
+        <hr>
+        <div id='visual_representations' class="vision-block">
+
+            <div id="motivation" class="sub-section">
+                <h1 class="text">Motivation</h1>
+
+                    <d-figure id="fig-comparison" >
+                        <figure>
+                            <img data-zoomable="" draggable="false" src="static/img/teaser.png" alt="benchmark category">
+                        </figure>
+                    </d-figure>
+                    <p class="text">
+                        <p class="text">
+                        Humans demonstrate true understanding through creation and recreate observed scenes because we genuinely comprehend spatial relationships and physical attributes. 
+                        In contrast, current Vision-Language Agents (VLAs) are primarily evaluated on recognition tasks like captioning or QA, which fail to assess deeper understanding. 
+                        <strong>Can VLAs truly understand what they see ?</strong> IR3D-Bench test it by letting them recreating the observations.
+                        </p>
+                    </p>
+            </div>
+            
+            <div id="stage1" class="sub-section">
+            <h2 class="text">Stage 1: Dataset Integration and Inverse Rendering </h2>
+                <d-figure id="fig-studyadapter" >
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/stage1.png" alt="Stage 1 Pipeline">
+                    </figure>
+                </d-figure>
+                
+            </div>
+
+            <div id='dataset_intergation' class="sub-section">
+            <h2 class="text">CLEVR Dataset Integration</h2>
+
+                <p class="text">
+                    We use the CLEVR dataset, a popular benchmark for 3D vision tasks. Our work uses the validation split, which includes 15,000 synthetic images. Each image contains 3 to 10 objects with detailed annotations covering their 3D coordinates, pixel-space projections, shape, color, size, material, and spatial relationships. These rich annotations make CLEVR ideal for evaluating 3D reconstruction and spatial reasoning in a controlled environment.
+                </p>
+
+                <div class="text" style="grid-column: text;">
+                    <div class="dataset-container">
+                    <!-- Image Carousel Section -->
+                    <div class="image-carousel-container">
+                        <div class="image-carousel">
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000000.json">
+                                <img src="static/img/dataset/CLEVR_val_000000.png" alt="CLEVR Dataset Sample 1">
+                                <script type="application/json">
+                                    {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":0,"objects":[{"color":"brown","size":"large","rotation":178.92387258999463,"shape":"cylinder","3d_coords":[-1.4937210083007812,-1.9936031103134155,0.699999988079071],"material":"rubber","pixel_coords":[119,131,10.801968574523926]},{"color":"gray","size":"large","rotation":243.405459279722,"shape":"cube","3d_coords":[1.555708646774292,-2.104736566543579,0.699999988079071],"material":"rubber","pixel_coords":[198,190,8.60103988647461]},{"color":"green","size":"small","rotation":230.45235024165092,"shape":"cylinder","3d_coords":[-2.342184543609619,-0.5205014944076538,0.3499999940395355],"material":"rubber","pixel_coords":[161,118,12.372727394104004]},{"color":"purple","size":"large","rotation":31.654351858799153,"shape":"sphere","3d_coords":[-0.8073106408119202,1.914123773574829,0.699999988079071],"material":"metal","pixel_coords":[282,100,12.495001792907715]},{"color":"gray","size":"small","rotation":42.183287560575,"shape":"cube","3d_coords":[2.6763813495635986,0.03453871235251427,0.3499999940395355],"material":"metal","pixel_coords":[337,195,9.161211967468262]}],"relationships":{"right":[[1,2,3,4],[3,4],[1,3,4],[4],[]],"behind":[[2,3],[0,2,3,4],[3],[],[0,2,3]],"front":[[1,4],[],[0,1,4],[0,1,2,4],[1]],"left":[[],[0,2],[0],[0,1,2],[0,1,2,3]]},"image_filename":"CLEVR_val_000000.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
+                                </script>
+                            </div>
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000001.json">
+                                <img src="static/img/dataset/CLEVR_val_000001.png" alt="CLEVR Dataset Sample 2">
+                                <script type="application/json">
+                                    {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":1,"objects":[{"color":"blue","size":"small","rotation":87.2092786731497,"shape":"cylinder","3d_coords":[-1.4019312858581543,0.9176712036132812,0.3499999940395355],"material":"metal","pixel_coords":[227,114,12.651700019836426]},{"color":"blue","size":"large","rotation":196.10032228152653,"shape":"cylinder","3d_coords":[2.56838321685791,2.8128368854522705,0.699999988079071],"material":"rubber","pixel_coords":[419,128,11.159161567687988]},{"color":"purple","size":"large","rotation":335.9272462668898,"shape":"sphere","3d_coords":[2.9524991512298584,0.7795983552932739,0.699999988079071],"material":"metal","pixel_coords":[382,168,9.672847747802734]},{"color":"yellow","size":"small","rotation":148.95236071940306,"shape":"cube","3d_coords":[-0.6843340992927551,2.7821667194366455,0.3499999940395355],"material":"metal","pixel_coords":[299,102,13.345067024230957]},{"color":"gray","size":"large","rotation":80.12030414245824,"shape":"cylinder","3d_coords":[-2.4355783462524414,-2.236754894256592,0.699999988079071],"material":"metal","pixel_coords":[85,127,11.196852684020996]},{"color":"cyan","size":"small","rotation":331.3705215814606,"shape":"cube","3d_coords":[-2.969482421875,1.423396110534668,0.3499999940395355],"material":"metal","pixel_coords":[200,92,13.94270133972168]},{"color":"cyan","size":"small","rotation":285.3619516996765,"shape":"cylinder","3d_coords":[2.6561522483825684,-1.5428955554962158,0.3499999940395355],"material":"rubber","pixel_coords":[286,229,8.604046821594238]},{"color":"blue","size":"large","rotation":284.89181152858265,"shape":"cube","3d_coords":[1.3208903074264526,0.4931657910346985,0.699999988079071],"material":"metal","pixel_coords":[304,144,10.518533706665039]},{"color":"green","size":"small","rotation":179.1419631256681,"shape":"cylinder","3d_coords":[-0.4053439795970917,-2.4375929832458496,0.3499999940395355],"material":"metal","pixel_coords":[133,180,9.971955299377441]},{"color":"yellow","size":"small","rotation":334.56764345600396,"shape":"cylinder","3d_coords":[0.9365460872650146,-2.5308165550231934,0.3499999940395355],"material":"rubber","pixel_coords":[173,210,9.074959754943848]}],"relationships":{"right":[[1,2,3,6,7],[],[1],[1,2],[0,1,2,3,5,6,7,8,9],[0,1,2,3,6,7],[1,2,3,7],[1,2,3],[0,1,2,3,5,6,7,9],[0,1,2,3,5,6,7]],"behind":[[1,3,5],[0,1,2,3,5,6,7,8,9],[1,3,5],[1,5],[],[1],[0,1,2,3,5,7,8,9],[1,3,5],[0,1,2,3,5,6,7],[0,1,2,3,5,6,7,8]],"front":[[2,4,6,7,8,9],[],[0,4,6,7,8,9],[0,2,4,6,7,8,9],[0,1,2,3,5,6,7,8,9],[2,4,6,7,8,9],[4,8,9],[],[],[]],"left":[[],[0,2,3,4,5,6,7,8,9],[0,3,4,5,8,9],[0,4,5,8,9],[0,2,3,5,6,7,8,9],[0,3,4],[0,2,3,4,5,8,9],[0,2,3,4,5,6,8,9],[0,2,3,4,5],[0,2,3,4,5,8]]},"image_filename":"CLEVR_val_000001.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
+                                </script>
+                            </div>
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000002.json">
+                                <img src="static/img/dataset/CLEVR_val_000002.png" alt="CLEVR Dataset Sample 3">
+                                <script type="application/json">
+                                    {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":2,"objects":[{"color":"purple","size":"large","rotation":24.266859933294032,"shape":"cube","3d_coords":[0.9164416790008545,2.5542008876800537,0.699999988079071],"material":"metal","pixel_coords":[349,113,12.158169746398926]},{"color":"yellow","size":"large","rotation":126.90972419473805,"shape":"sphere","3d_coords":[-2.3131093978881836,1.4229497909545898,0.699999988079071],"material":"metal","pixel_coords":[223,86,13.650497436523438]},{"color":"blue","size":"small","rotation":156.39099006528448,"shape":"cube","3d_coords":[-2.4592032432556152,-2.859107732772827,0.3499999940395355],"material":"metal","pixel_coords":[67,146,11.473008155822754]},{"color":"green","size":"small","rotation":42.165222443059704,"shape":"sphere","3d_coords":[1.6640125513076782,-0.6807796955108643,0.3499999940395355],"material":"metal","pixel_coords":[270,187,9.986722946166992]},{"color":"purple","size":"large","rotation":76.43620097602489,"shape":"cylinder","3d_coords":[2.9267563819885254,1.7387181520462036,0.699999988079071],"material":"metal","pixel_coords":[404,156,10.361809730529785]},{"color":"brown","size":"small","rotation":346.39110722841224,"shape":"cylinder","3d_coords":[-2.6752941608428955,-0.15827248990535736,0.3499999940395355],"material":"metal","pixel_coords":[166,111,13.157706260681152]},{"color":"gray","size":"large","rotation":271.4579996980617,"shape":"cylinder","3d_coords":[2.776763439178467,-2.3596839904785156,0.699999988079071],"material":"rubber","pixel_coords":[242,235,8.121735572814941]},{"color":"yellow","size":"large","rotation":26.23470743173072,"shape":"cube","3d_coords":[0.945395290851593,-2.2262401580810547,0.699999988079071],"material":"rubber","pixel_coords":[180,185,9.410319328308105]}],"relationships":{"right":[[4],[0,3,4,6],[0,1,3,4,5,6,7],[0,4],[0,3,4],[0,1,2,3,4,6,7],[0,3,4],[0,1,2,3,4,6]],"behind":[[1,5],[0,2,3,4,5,6,7],[0,3],[],[0,1,2,3,5,6],[0,1,2,3,6],[0,2,3]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000002.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
+                                </script>
+                            </div>
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000003.json">
+                                <img src="static/img/dataset/CLEVR_val_000003.png" alt="CLEVR Dataset Sample 4">
+                                <script type="application/json">
+                                    {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":3,"objects":[{"color":"yellow","size":"small","rotation":52.53684703422393,"shape":"sphere","3d_coords":[2.1417222023010254,-2.7576637268066406,0.3499999940395355],"material":"rubber","pixel_coords":[197,247,8.038165092468262]},{"color":"purple","size":"large","rotation":277.821313290429,"shape":"sphere","3d_coords":[-2.072401523590088,2.136496067047119,0.699999988079071],"material":"metal","pixel_coords":[249,81,13.48475170135498]},{"color":"blue","size":"large","rotation":77.97216669037716,"shape":"cylinder","3d_coords":[-0.528790295124054,2.905188798904419,0.699999988079071],"material":"metal","pixel_coords":[315,90,12.911911010742188]},{"color":"gray","size":"large","rotation":277.43883851053334,"shape":"cube","3d_coords":[-0.9423105716705322,-2.95906138420105,0.699999988079071],"material":"rubber","pixel_coords":[87,159,9.787914276123047]},{"color":"brown","size":"small","rotation":215.92210360473527,"shape":"cylinder","3d_coords":[-0.9988107085227966,-1.528560996055603,0.3499999940395355],"material":"metal","pixel_coords":[152,151,10.821432113647461]},{"color":"purple","size":"large","rotation":214.7023250953585,"shape":"sphere","3d_coords":[0.4423714578151703,1.3085707426071167,0.699999988079071],"material":"metal","pixel_coords":[299,120,11.346577644348145]},{"color":"brown","size":"small","rotation":31.799854282664057,"shape":"cylinder","3d_coords":[-1.8510726690292358,-0.1959560215473175,0.3499999940395355],"material":"rubber","pixel_coords":[181,121,12.15542221069336]}],"relationships":{"right":[[1,2,5],[2,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[2],[0,1,2,5]],"behind":[[3],[0,2,3,6],[0,3],[],[0,1,2,3,5,6],[0,1,2,3,6],[0,2,3]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000003.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
+                                </script>
+                            </div>
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000004.json">
+                                <img src="static/img/dataset/CLEVR_val_000004.png" alt="CLEVR Dataset Sample 5">
+                                <script type="application/json">
+                                        {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":4,"objects":[{"color":"red","size":"small","rotation":103.96810996862779,"shape":"sphere","3d_coords":[-1.3702292442321777,-2.155432939529419,0.3499999940395355],"material":"rubber","pixel_coords":[110,154,10.136273384094238]},{"color":"brown","size":"large","rotation":300.285267307425,"shape":"sphere","3d_coords":[0.46740391850471497,-2.6708884239196777,0.699999988079071],"material":"rubber","pixel_coords":[137,183,8.460342407226562]},{"color":"purple","size":"small","rotation":123.9522959520619,"shape":"cylinder","3d_coords":[-1.6677716970443726,1.5341471433639526,0.3499999940395355],"material":"rubber","pixel_coords":[241,103,12.526554107666016]},{"color":"gray","size":"large","rotation":27.441103922672664,"shape":"cylinder","3d_coords":[2.624936103820801,1.3213320970535278,0.699999988079071],"material":"rubber","pixel_coords":[393,153,9.417881965637207]},{"color":"gray","size":"large","rotation":277.7327613525135,"shape":"sphere","3d_coords":[0.3835722506046295,2.3025729656219482,0.699999988079071],"material":"metal","pixel_coords":[330,105,11.473976135253906]},{"color":"green","size":"large","rotation":62.00128204401709,"shape":"cylinder","3d_coords":[-2.771306276321411,-2.472614049911499,0.699999988079071],"material":"rubber","pixel_coords":[59,121,10.705843925476074]}],"relationships":{"right":[[1,2,3,4],[2,3,4],[3,4],[],[3],[0,1,2,3,4]],"behind":[[2,4,5],[0,2,3,4,5],[],[0,2,4,5],[2],[2,4]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000004.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
+                                </script>
+                            </div>
+                            
+                            <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
+                                <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6">
+                                <script type="application/json">
+                                    {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":5,"objects":[{"color":"yellow","size":"small","rotation":312.44380611548513,"shape":"cube","3d_coords":[-0.6884685754776001,1.4769357442855835,0.3499999940395355],"material":"rubber","pixel_coords":[268,119,12.629888534545898]},{"color":"gray","size":"large","rotation":301.9143106752324,"shape":"sphere","3d_coords":[-0.4024123251438141,-1.1227504014968872,0.699999988079071],"material":"metal","pixel_coords":[186,139,10.785597801208496]},{"color":"blue","size":"small","rotation":147.11529758732306,"shape":"cube","3d_coords":[-1.9388166666030884,-0.8367786407470703,0.3499999940395355],"material":"metal","pixel_coords":[158,128,12.150248527526855]},{"color":"yellow","size":"large","rotation":306.2918951162928,"shape":"sphere","3d_coords":[-1.4938887357711792,2.907089948654175,0.699999988079071],"material":"metal","pixel_coords":[288,83,13.830824851989746]},{"color":"blue","size":"small","rotation":210.8307452645328,"shape":"cube","3d_coords":[1.7929556369781494,-2.2758824825286865,0.3499999940395355],"material":"metal","pixel_coords":[206,220,8.803750991821289]},{"color":"yellow","size":"large","rotation":73.44739856943892,"shape":"sphere","3d_coords":[-0.7093875408172607,-2.8273890018463135,0.699999988079071],"material":"rubber","pixel_coords":[103,159,10.017038345336914]},{"color":"yellow","size":"large","rotation":344.38317584188644,"shape":"sphere","3d_coords":[1.2460074424743652,2.012741804122925,0.699999988079071],"material":"metal","pixel_coords":[347,124,11.466705322265625]}],"relationships":{"right":[[3,6],[0,3,4,6],[0,1,3,4,6],[6],[0,3,6],[0,1,2,3,4,6],[]],"behind":[[3],[0,2,3,6],[0,3],[],[0,1,2,3,5,6],[0,1,2,3,6],[0,2,3]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000005.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Display Area -->
+                    <div class="text-display-area">
+                        <div class="text-container">
+                            <p id="display-text">Click the image to view the GT annotations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .dataset-container {
+                        margin: 1rem 0;
+                        padding: 2rem;
+                        background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%);
+                        border-radius: 12px;
+                    }
+                    /* Image Carousel Styles */
+                    .image-carousel-container {
+                        position: relative;
+                        overflow: hidden;
+                        width: 100%;
+                    }
+                    
+                    @keyframes slideCarousel {
+                        to {
+                           transform: translate(calc(-50% - 0.25rem)); /* 0.25rem is half the gap */
+                        }
+                    }
+                    
+                    .image-carousel {
+                        display: flex;
+                        width: max-content;
+                        animation: slideCarousel 20s linear infinite;
+                        gap: 0.5rem;
+                    }
+                    
+                    .image-carousel:hover {
+                        animation-play-state: paused;
+                    }
+                    
+                    .carousel-item {
+                        flex: 0 0 400px;
+                        min-width: 300px;
+                        max-width: 400px;
+                        scroll-snap-align: start;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                        background-color: white;
+                        transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        position: relative;
+                        margin-right: 0.5rem;
+                        cursor: pointer;
+                    }
+                    
+                    .carousel-item:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+                    }
+                    
+                    .carousel-item img {
+                        width: 100%;
+                        height: 250px;
+                        object-fit: cover;
+                        display: block;
+                    }
+                    
+                    .hidden-text-data {
+                        display: none;
+                    }
+                    
+                    /* Text Display Area Styles */
+                    .text-display-area {
+                        background-color: rgba(255, 255, 255, 0.05);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        border-radius: 12px;
+                        padding: 1.5rem;
+                        margin-top: 1rem; /* This now controls the distance */
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                        min-height: 80px;
+                        display: flex;
+                        align-items: center;
+                    }
+                    
+                    .text-container {
+                        max-width: 100%;
+                        margin: 0 auto;
+                        width: 100%;
+                    }
+                    
+                    .text-container p {
+                        font-size: 1rem;
+                        line-height: 1.5;
+                        color: #f0f0f0;
+                        margin: 0;
+                        text-align: left;
+                        transition: opacity 0.3s ease;
+                        white-space: pre-wrap;
+                        font-family: monospace;
+                    }
+                    
+                    .text-container .json-key,
+                    .vlm-response .json-key {
+                        color: #fca9ff;
+                    }
+                    .text-container .json-string,
+                    .vlm-response .json-string {
+                        color: #b4fbb9;
+                    }
+                    .text-container .json-number,
+                    .vlm-response .json-number {
+                        color: #a5dfff;
+                    }
+                    .text-container .json-boolean,
+                    .vlm-response .json-boolean {
+                        color: #ffcc99;
+                    }
+                    .text-container .json-null,
+                    .vlm-response .json-null {
+                        color: #999;
+                    }
+                    
+                    /* Responsive adjustments */
+                    @media (max-width: 768px) {
+                        .carousel-item {
+                            flex: 0 0 90%;
+                            min-width: 250px;
+                            margin-right: 0.25rem;
+                        }
+                        
+                        .image-carousel {
+                            animation-duration: 30s; /* Adjust mobile speed */
+                        }
+                    }
+
+                    /* Chat Section Styles */
+                    .exp-container {
+                        font-family: 'system-ui', sans-serif;
+                        padding: 2rem;
+                        background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%);
+                        border-radius: 12px;
+                        position: relative;
+                    }
+                    .chat-bubble {
+                        position: relative;
+                        padding: 0.5rem;
+                        border-radius: 12px;
+                        margin-bottom: 1.0rem;
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                        border: 1px solid rgba(255, 255, 255, 0.1);
+                        background-color: rgba(255, 255, 255, 0.05);
+                        font-size: 1.1rem; /* Larger font size */
+                    }
+                    .chat-icon {
+                        position: absolute;
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                        background: white;
+                        padding: 5px;
+                        object-fit: cover;
+                        top: 15px;
+                        transform: none;
+                    }
+                    .text-container .json-key,
+                    .vlm-response .json-key {
+                        color: #fca9ff;
+                    }
+                    .text-container .json-string,
+                    .vlm-response .json-string {
+                        color: #b4fbb9;
+                    }
+                    .text-container .json-number,
+                    .vlm-response .json-number {
+                        color: #a5dfff;
+                    }
+                    .text-container .json-boolean,
+                    .vlm-response .json-boolean {
+                        color: #ffcc99;
+                    }
+                    .text-container .json-null,
+                    .vlm-response .json-null {
+                        color: #999;
+                    }
+                    .user-prompt {
+                        margin-left: auto;
+                        margin-right: 0;
+                        max-width: 90%;
+                        padding-right: 70px;
+                        margin-bottom: 1.0rem;
+                        padding-bottom: 0.5rem;
+                    }
+                    .user-prompt .chat-icon {
+                        right: 15px;
+                        left: auto;
+                    }
+                    .user-prompt-content {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 1.5rem;
+                    }
+                    .user-prompt-content p {
+                        font-size: 1.5rem;
+                        color: #f0f0f0;
+                    }
+                     .vlm-response {
+                        margin: 0;
+                        flex: 1.5;
+                        min-width: 0;
+                        padding-left: 70px;
+                        color: #f0f0f0;
+                    }
+                    .vlm-response .chat-icon {
+                        left: 15px;
+                    }
+                    .agent-response-row {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        margin-left: 0;
+                        justify-content: space-between;
+                    }
+                    .flow-arrow {
+                        font-size: 3rem;
+                        color: #fff;
+                        margin: 0;
+                    }
+                    .blender-container {
+                        position: relative;
+                        flex: 2;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .blender-container .blender-gif {
+                        width: 100%;
+                        border-radius: 8px;
+                        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+                        border: 1px solid #e1e1e1;
+                    }
+                    .blender-icon-overlay {
+                        position: absolute;
+                        width: 40px;
+                        height: 40px;
+                        top: 10px;
+                        left: 10px;
+                        background: rgba(255, 255, 255, 0.8);
+                        border-radius: 50%;
+                        padding: 5px;
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                    }
+                    .iterative-arrow {
+                        position: absolute;
+                        right: 30px;
+                        top: 220px;
+                        width: 120px;
+                        height: 180px;
+                        pointer-events: none;
+                        z-index: 10;
+                    }
+                    .straight-arrow {
+                        position: absolute;
+                        font-size: 3rem;
+                        color: white;
+                        top: 280px;
+                        right: 25%;
+                        pointer-events: none;
+                        z-index: 10;
+                    }
+                </style>
+
+                <script>
+                    // Image Carousel functionality
+                    document.addEventListener('DOMContentLoaded', function() {
+                        function syntaxHighlight(jsonString) {
+                            if (typeof jsonString != 'string') {
+                                jsonString = JSON.stringify(jsonString, undefined, 2);
+                            }
+                            jsonString = jsonString.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            return jsonString.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                                var cls = 'number';
+                                if (/^"/.test(match)) {
+                                    if (/:$/.test(match)) {
+                                        cls = 'key';
+                                    } else {
+                                        cls = 'string';
+                                    }
+                                } else if (/true|false/.test(match)) {
+                                    cls = 'boolean';
+                                } else if (/null/.test(match)) {
+                                    cls = 'null';
+                                }
+                                return '<span class="json-' + cls + '">' + match + '</span>';
+                            });
+                        }
+                        const carouselContainer = document.querySelector('.image-carousel-container');
+                        const carousel = document.querySelector('.image-carousel');
+                        const displayText = document.getElementById('display-text');
+                        
+                        // Duplicate all carousel items for infinite loop
+                        const items = Array.from(carousel.children);
+                        items.forEach(item => {
+                            const clone = item.cloneNode(true);
+                            clone.setAttribute('aria-hidden', 'true');
+                            carousel.appendChild(clone);
+                        });
+
+                        // Adjust animation speed based on screen width
+                        function updateCarouselSpeed() {
+                            const isMobile = window.innerWidth <= 768;
+                            carousel.style.animationDuration = isMobile ? '30s' : '20s';
+                        }
+                        
+                        // Initial setup
+                        updateCarouselSpeed();
+                        
+                        // Update on window resize
+                        window.addEventListener('resize', updateCarouselSpeed);
+                        
+                        // Pause animation on hover
+                        carousel.addEventListener('mouseenter', () => {
+                            carousel.style.animationPlayState = 'paused';
+                        });
+                        
+                        carousel.addEventListener('mouseleave', () => {
+                            carousel.style.animationPlayState = 'running';
+                            displayText.style.opacity = '0';
+                            setTimeout(() => {
+                                displayText.textContent = 'Click the image to view the GT annotations';
+                                displayText.style.opacity = '1';
+                            }, 150);
+                        });
+                        
+                        // Update text on hover
+                        const allItems = carousel.querySelectorAll('.carousel-item');
+                        allItems.forEach(item => {
+                            item.addEventListener('mouseenter', function() {
+                                updateText(this);
+                            });
+                        });
+                        
+                        // Function to update the text display by fetching JSON
+                        function updateText(item) {
+                            const jsonScript = item.querySelector('script[type="application/json"]');
+                            if (!jsonScript) {
+                                displayText.textContent = 'No JSON data found for this item.';
+                                return;
+                            }
+
+                            displayText.style.opacity = '0';
+
+                            try {
+                                const data = JSON.parse(jsonScript.textContent);
+
+                                if (data.scenes && data.scenes[0] && data.scenes[0].objects && data.scenes[0].objects[0]) {
+                                    const firstObject = data.scenes[0].objects[0];
+                                    const textContent = JSON.stringify(firstObject, null, 2) + '...';
+                                    
+                                    setTimeout(() => {
+                                        displayText.innerHTML = syntaxHighlight(textContent);
+                                        displayText.style.opacity = '1';
+                                    }, 150);
+                                } else {
+                                    setTimeout(() => {
+                                        displayText.textContent = 'Could not find valid object data in the JSON file.';
+                                        displayText.style.opacity = '1';
+                                    }, 150);
+                                }
+                            } catch (error) {
+                                console.error('Error parsing JSON:', error);
+                                setTimeout(() => {
+                                    displayText.textContent = 'Error parsing object details.';
+                                    displayText.style.opacity = '1';
+                                }, 150);
+                            }
+                        }
+                        
+                        // No need to initialize with first item's text anymore
+
+                        function syntaxHighlightVLM(selector) {
+                            const pre = document.querySelector(selector);
+                            if (!pre) return;
+                            const text = pre.textContent || pre.innerText;
+                            pre.innerHTML = syntaxHighlight(text);
+                        }
+
+                        syntaxHighlightVLM('#vlm-output-code');
+                        syntaxHighlightVLM('#refine-output-code');
+                    });
+                </script>
+
+                
+
+        
+            </div>
+        
+
+        </div>
+
+            <div id='inverse_rendering' class="sub-section">
+                <h2 class="text">Inverse Rendering</h2>
+            <p class="text">
+                VLM is prompted with an image and textual instruction to infer object-level geometric and material parameters, 
+                outputting structured scene representations in JSON format. 
+                These predictions are subsequently used to reconstruct the scene in Blender.
+            </p>
+
+            <div class="exp-container text">
+                    <div class="chat-bubble user-prompt">
+                    <img src="static/img/ir/user1.svg" alt="User Icon" class="chat-icon">
+                        <div class="user-prompt-content">
+                        <p style="color: #f0f0f0;">Please carefully analyze the provided image, identifying all major geometric objects, their properties. Your task is to extract object and return the result strictly following the JSON format specified below.</p>
+                            <img src="static/img/dataset/CLEVR_val_000000.png" style="width: 150px; border-radius: 4px;">
+                        </div>
+                    </div>
+
+                    <div class="agent-response-row">
+                        <div class="chat-bubble vlm-response">
+                            <img src="static/img/ir/VLM.jpg" alt="VLM Icon" class="chat-icon">
+                        <pre id="vlm-output-code" style="background-color: transparent; color: inherit; padding: 0; margin: 0; white-space: pre-wrap; font-family: monospace; font-size: inherit;">Obj1{
+    "name": "brown large rubber cylinder",
+    "location": [-2.0, 2.0, 1.0],
+    "rotation_euler": [0.0, 0.0, 0.0],
+    "size_params": { "radius": 0.8, "depth": 2.0},
+    "material": {
+        "name": "BrownRubber",
+        "base_color": [ 0.6, 0.4, 0.2, 1.0 ],
+        "metallic": 0.0,
+        "roughness": 0.9 }
+}</pre>
+                        </div>
+                        
+                             <div class="flow-arrow">&rarr;</div>
+
+                    <div class="blender-container">
+                         <img src="static/img/ir/video_fast.gif" alt="Blender Render GIF" class="blender-gif">
+                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/120px-Blender_logo_no_text.svg.png" alt="Blender Icon" class="blender-icon-overlay">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="vision-block">
+
+            <div id="metrics" class="sub-section">
+
+            <h1 class="text">Stage 2: Benchmark Evaluation </h1>
+                <p class="text">
+                    We provide a comprehensive view of the VLA's internal world model and generative precision:
+                </p>
+                <ul class="text" style="list-style-type: none; padding-left: 1.5rem;">
+                    <li><b>Localization:</b> Object count, spatial alignment, and relation consistency</li>
+                    <li><b>Visual Appearance:</b> Shape and material accuracy via mask- and attribute-level scores</li>
+                    <li><b>Language-Aligned Semantics:</b> Layout fidelity and object plausibility assessed via GPT-4o</li>
+                </ul>
+                <d-figure id="fig-studyadapter" >
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="static/img/stage2.png" alt="Stage 2 Pipeline">
+                    </figure>
+                </d-figure>
+                
+            </div>
+        
+        </div>
+
+        
+        <div class="vision-block">
+            <div id="exp" class="sub-section">
+                <h1 class="text">Experimental Results</h1>
+                
+                <div id='exp_1' class="sub-section">
+                    <h2 class="text">IR3D-Bench LeaderBoard</h2>
+                    <p class="text">
+                        Gemini-2.5-pro demonstrates strong understanding of object spatial positions and relative layouts.
+                        Grok-3 excels at modeling fine-grained details such as material and color.
+                        Qwen2.5-VL-72B struggles in more complex scenarios.
+                    </p>
+                    <h3 class="text">Holistic comparison over Metrics Suite</h3>
+                    
+                    <d-figure id="fig-studyadapter" >
+                        <figure>
+                            <img data-zoomable="" draggable="false" src="static/img/radar.png" alt="Stage 2 Pipeline">
+                        </figure>
+                    </d-figure>
+
+                    <h3 class="text">Quantitative Comparison</h3>
+                    <div class="table-container" style="grid-column: text; overflow-x: auto; width: 150%; margin-left: -20%;">
+                        <style>
+                            .leaderboard-table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                font-size: 0.9em;
+                                color: #333; 
+                                background-color: #f9f9f9; /* Muted light gray background */
+                            }
+                            .leaderboard-table th, .leaderboard-table td {
+                                border: 1px solid #e5e5e5; /* Softer borders */
+                                padding: 8px;
+                                text-align: center;
+                                transition: background-color 0.3s ease;
+                            }
+                            .leaderboard-table thead th {
+                                background-color: #e4e8eb; /* Muted light blue-gray */
+                                color: #5a6773; /* Darker blue-gray text */
+                                font-weight: bold;
+                            }
+                            .leaderboard-table .model-name {
+                                text-align: left;
+                            }
+                            .leaderboard-table .group-header {
+                                text-align: left;
+                                background-color: #d8dde1; /* Slightly darker muted blue-gray */
+                                font-weight: bold;
+                                color: #5a6773;
+                            }
+                            .leaderboard-table .highlight {
+                                background-color: #f5f2e9; /* Muted yellow-gray for highlights */
+                            }
+                            .leaderboard-table .highlight strong {
+                                color: #333; 
+                            }
+                            .leaderboard-table .failed {
+                                color: #d9534f;
+                                font-weight: bold;
+                            }
+                            .leaderboard-table tbody td:hover {
+                                background-color: #efefef; /* Light grey on hover */
+                            }
+                            .leaderboard-table .highlight:hover {
+                                background-color: #e9e5d9; /* Darker muted yellow on hover */
+                            }
+                        </style>
+                        <table class="leaderboard-table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Model</th>
+                                    <th rowspan="2">Release</th>
+                                    <th colspan="3">Layout & Localization</th>
+                                    <th colspan="3">Relation Instance Seg.</th>
+                                    <th colspan="5">CLIP Score</th>
+                                    <th colspan="3">LLM Score</th>
+                                </tr>
+                                <tr>
+                                    <th>Pix. Dist.↓</th>
+                                    <th>Count Acc↑</th>
+                                    <th>Bbox↑</th>
+                                    <th>Rel. Acc↑</th>
+                                    <th>IoU↑</th>
+                                    <th>Dice↑</th>
+                                    <th>Color↑</th>
+                                    <th>Size↑</th>
+                                    <th>Material↑</th>
+                                    <th>Shape↑</th>
+                                    <th>Overall↑</th>
+                                    <th>Obj App.↑</th>
+                                    <th>Layout↑</th>
+                                    <th>Overall↑</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="16" class="group-header">Latest Proprietary Models</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Gemini-2.5-pro</td>
+                                    <td>2025-03</td>
+                                    <td class="highlight"><strong>0.3791</strong></td>
+                                    <td class="highlight"><strong>1.00</strong></td>
+                                    <td>0.45</td>
+                                    <td class="highlight"><strong>0.55</strong></td>
+                                    <td class="highlight"><strong>0.11</strong></td>
+                                    <td class="highlight"><strong>0.18</strong></td>
+                                    <td>96.12</td>
+                                    <td>97.00</td>
+                                    <td>99.50</td>
+                                    <td>99.75</td>
+                                    <td>93.08</td>
+                                    <td>2.96</td>
+                                    <td>2.05</td>
+                                    <td>2.62</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Gemini-2.0-flash</td>
+                                    <td>2025-02</td>
+                                    <td>0.4291</td>
+                                    <td>0.99</td>
+                                    <td>0.37</td>
+                                    <td>0.46</td>
+                                    <td>0.08</td>
+                                    <td>0.13</td>
+                                    <td>96.59</td>
+                                    <td>97.67</td>
+                                    <td>99.41</td>
+                                    <td>99.92</td>
+                                    <td>94.97</td>
+                                    <td>2.99</td>
+                                    <td>2.08</td>
+                                    <td>2.72</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Claude3.5-Sonnet</td>
+                                    <td>2024-10</td>
+                                    <td>0.5402</td>
+                                    <td>0.87</td>
+                                    <td class="highlight"><strong>0.50</strong></td>
+                                    <td>0.28</td>
+                                    <td>0.09</td>
+                                    <td>0.14</td>
+                                    <td>93.19</td>
+                                    <td>96.77</td>
+                                    <td>97.39</td>
+                                    <td>98.60</td>
+                                    <td>91.39</td>
+                                    <td>2.67</td>
+                                    <td>1.85</td>
+                                    <td>2.28</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Claude-3.7-Sonnet</td>
+                                    <td>2025-02</td>
+                                    <td>0.5099</td>
+                                    <td>0.93</td>
+                                    <td class="highlight"><strong>0.53</strong></td>
+                                    <td>0.38</td>
+                                    <td>0.09</td>
+                                    <td>0.14</td>
+                                    <td>97.71</td>
+                                    <td>98.34</td>
+                                    <td>99.42</td>
+                                    <td>99.09</td>
+                                    <td>96.36</td>
+                                    <td>3.05</td>
+                                    <td>2.10</td>
+                                    <td>2.82</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">GPT-4.1</td>
+                                    <td>2025-04</td>
+                                    <td>0.4366</td>
+                                    <td class="highlight"><strong>1.00</strong></td>
+                                    <td>0.48</td>
+                                    <td>0.42</td>
+                                    <td>0.08</td>
+                                    <td>0.13</td>
+                                    <td>97.55</td>
+                                    <td>97.34</td>
+                                    <td>98.96</td>
+                                    <td>98.66</td>
+                                    <td>94.59</td>
+                                    <td>2.68</td>
+                                    <td>1.66</td>
+                                    <td>2.34</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">GPT-4o</td>
+                                    <td>2024-11</td>
+                                    <td>0.5528</td>
+                                    <td>0.94</td>
+                                    <td>0.29</td>
+                                    <td>0.30</td>
+                                    <td>0.07</td>
+                                    <td>0.11</td>
+                                    <td>96.70</td>
+                                    <td>98.36</td>
+                                    <td>98.66</td>
+                                    <td>99.88</td>
+                                    <td>94.22</td>
+                                    <td>2.90</td>
+                                    <td>1.94</td>
+                                    <td>2.52</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">grok-3</td>
+                                    <td>2024-12</td>
+                                    <td>0.4378</td>
+                                    <td>0.98</td>
+                                    <td>0.33</td>
+                                    <td>0.38</td>
+                                    <td>0.08</td>
+                                    <td>0.13</td>
+                                    <td>98.04</td>
+                                    <td>99.15</td>
+                                    <td>99.87</td>
+                                    <td>99.89</td>
+                                    <td>97.80</td>
+                                    <td>3.02</td>
+                                    <td>2.06</td>
+                                    <td>2.71</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="16" class="group-header">Open-source Models</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">DeepSeek-VL2</td>
+                                    <td>2024-12</td>
+                                    <td colspan="14" class="failed">× Failed</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Llama-3.2-11B-Vision</td>
+                                    <td>2024-09</td>
+                                    <td colspan="14" class="failed">× Failed</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">H2OVL-Mississippi-2B</td>
+                                    <td>2024-10</td>
+                                    <td colspan="14" class="failed">× Failed</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">LLaVA-NeXT</td>
+                                    <td>2025-01</td>
+                                    <td>0.6835</td>
+                                    <td>0.69</td>
+                                    <td>0.38</td>
+                                    <td>0.12</td>
+                                    <td>0.03</td>
+                                    <td>0.04</td>
+                                    <td>92.11</td>
+                                    <td>96.78</td>
+                                    <td>96.31</td>
+                                    <td>96.85</td>
+                                    <td>89.17</td>
+                                    <td>2.03</td>
+                                    <td>0.96</td>
+                                    <td>1.47</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Mistral3</td>
+                                    <td>2025-01</td>
+                                    <td>0.4733</td>
+                                    <td>0.99</td>
+                                    <td>0.26</td>
+                                    <td class="highlight">0.44</td>
+                                    <td>0.06</td>
+                                    <td>0.11</td>
+                                    <td>99.56</td>
+                                    <td>99.79</td>
+                                    <td>99.85</td>
+                                    <td>99.90</td>
+                                    <td>97.95</td>
+                                    <td>3.17</td>
+                                    <td>2.16</td>
+                                    <td>2.78</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">phi-3.5-Vision</td>
+                                    <td>2024-07</td>
+                                    <td>0.6027</td>
+                                    <td>0.80</td>
+                                    <td>0.45</td>
+                                    <td>0.13</td>
+                                    <td>0.02</td>
+                                    <td>0.03</td>
+                                    <td>91.44</td>
+                                    <td>96.35</td>
+                                    <td>93.08</td>
+                                    <td>96.35</td>
+                                    <td>87.06</td>
+                                    <td>2.10</td>
+                                    <td>1.01</td>
+                                    <td>1.53</td>
+                                    
+                                </tr>
+                                 <tr>
+                                    <td class="model-name">phi4_mm</td>
+                                    <td>2025-02</td>
+                                    <td>0.6192</td>
+                                    <td>0.92</td>
+                                    <td>0.21</td>
+                                    <td>0.32</td>
+                                    <td>0.03</td>
+                                    <td>0.05</td>
+                                    <td>94.82</td>
+                                    <td>93.16</td>
+                                    <td>96.02</td>
+                                    <td>99.58</td>
+                                    <td>92.63</td>
+                                    <td>2.59</td>
+                                    <td>1.49</td>
+                                    <td>2.04</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Pixtral-12B</td>
+                                    <td>2024-11</td>
+                                    <td>0.4661</td>
+                                    <td>0.98</td>
+                                    <td>0.23</td>
+                                    <td>0.42</td>
+                                    <td>0.07</td>
+                                    <td>0.11</td>
+                                    <td>99.28</td>
+                                    <td>99.90</td>
+                                    <td>99.03</td>
+                                    <td>99.83</td>
+                                    <td>98.93</td>
+                                    <td>3.22</td>
+                                    <td>2.15</td>
+                                    <td>2.78</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Aria</td>
+                                    <td>2024-11</td>
+                                    <td>0.5932</td>
+                                    <td>0.87</td>
+                                    <td>0.25</td>
+                                    <td>0.17</td>
+                                    <td>0.05</td>
+                                    <td>0.08</td>
+                                    <td>95.96</td>
+                                    <td>99.22</td>
+                                    <td>99.22</td>
+                                    <td>99.80</td>
+                                    <td>92.09</td>
+                                    <td>2.90</td>
+                                    <td>1.91</td>
+                                    <td>2.44</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Idefics3-8B</td>
+                                    <td>2024-08</td>
+                                    <td>0.9100</td>
+                                    <td>0.97</td>
+                                    <td>0.11</td>
+                                    <td>0.18</td>
+                                    <td>0.03</td>
+                                    <td>0.06</td>
+                                    <td>98.35</td>
+                                    <td>99.83</td>
+                                    <td>95.35</td>
+                                    <td>99.98</td>
+                                    <td>97.97</td>
+                                    <td>3.14</td>
+                                    <td>1.79</td>
+                                    <td>2.48</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">InternVL2.5-8B</td>
+                                    <td>2024-11</td>
+                                    <td>0.9511</td>
+                                    <td class="highlight"><strong>1.00</strong></td>
+                                    <td>0.22</td>
+                                    <td>0.28</td>
+                                    <td>0.03</td>
+                                    <td>0.05</td>
+                                    <td class="highlight"><strong>99.85</strong></td>
+                                    <td class="highlight"><strong>99.92</strong></td>
+                                    <td>99.85</td>
+                                    <td class="highlight"><strong>99.98</strong></td>
+                                    <td class="highlight"><strong>99.80</strong></td>
+                                    <td>3.02</td>
+                                    <td>1.86</td>
+                                    <td>2.51</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">InternVL2.5-38B</td>
+                                    <td>2024-11</td>
+                                    <td>0.5233</td>
+                                    <td class="highlight"><strong>1.00</strong></td>
+                                    <td>0.23</td>
+                                    <td>0.38</td>
+                                    <td>0.07</td>
+                                    <td>0.11</td>
+                                    <td>99.79</td>
+                                    <td class="highlight"><strong>99.98</strong></td>
+                                    <td class="highlight"><strong>100.00</strong></td>
+                                    <td class="highlight"><strong>100.00</strong></td>
+                                    <td class="highlight"><strong>99.86</strong></td>
+                                    <td class="highlight"><strong>3.26</strong></td>
+                                    <td>2.17</td>
+                                    <td>2.83</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">InternVL3-8B</td>
+                                    <td>2025-04</td>
+                                    <td>0.5549</td>
+                                    <td class="highlight"><strong>1.00</strong></td>
+                                    <td>0.32</td>
+                                    <td>0.30</td>
+                                    <td>0.05</td>
+                                    <td>0.08</td>
+                                    <td>99.20</td>
+                                    <td>99.49</td>
+                                    <td>98.82</td>
+                                    <td>99.62</td>
+                                    <td>98.82</td>
+                                    <td>3.00</td>
+                                    <td>1.89</td>
+                                    <td>2.49</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">InternVL3-38B</td>
+                                    <td>2025-04</td>
+                                    <td>0.4560</td>
+                                    <td class="highlight"><strong>1.00</strong></td>
+                                    <td>0.18</td>
+                                    <td>0.40</td>
+                                    <td>0.07</td>
+                                    <td>0.13</td>
+                                    <td>99.15</td>
+                                    <td class="highlight"><strong>99.98</strong></td>
+                                    <td class="highlight"><strong>100.00</strong></td>
+                                    <td class="highlight"><strong>100.00</strong></td>
+                                    <td class="highlight"><strong>99.47</strong></td>
+                                    <td class="highlight"><strong>3.25</strong></td>
+                                    <td class="highlight"><strong>2.22</strong></td>
+                                    <td class="highlight"><strong>2.89</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Qwen2.5-VL-7B</td>
+                                    <td>2025-01</td>
+                                    <td>0.6537</td>
+                                    <td>0.96</td>
+                                    <td>0.40</td>
+                                    <td>0.30</td>
+                                    <td>0.04</td>
+                                    <td>0.06</td>
+                                    <td>98.21</td>
+                                    <td>99.60</td>
+                                    <td>99.71</td>
+                                    <td>99.86</td>
+                                    <td>96.89</td>
+                                    <td>3.04</td>
+                                    <td>1.95</td>
+                                    <td>2.55</td>
+                                </tr>
+                                <tr>
+                                    <td class="model-name">Qwen2.5-VL-72B</td>
+                                    <td>2025-01</td>
+                                    <td class="highlight"><strong>0.4082</strong></td>
+                                    <td class="highlight"><strong>1.00</strong></td>
+                                    <td>0.21</td>
+                                    <td>0.39</td>
+                                    <td>0.08</td>
+                                    <td>0.13</td>
+                                    <td class="highlight"><strong>99.86</strong></td>
+                                    <td class="highlight"><strong>99.98</strong></td>
+                                    <td>99.99</td>
+                                    <td class="highlight"><strong>99.98</strong></td>
+                                    <td class="highlight"><strong>99.80</strong></td>
+                                    <td class="highlight"><strong>3.24</strong></td>
+                                    <td>2.20</td>
+                                    <td class="highlight"><strong>3.02</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <h3 class="text">Visual Results</h3>
+<div class="text" style="grid-column: text;">
+  <div class="visual-carousel-block" style="margin: 1rem 0; padding: 1.5rem 1rem; background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%); border-radius: 12px;">
+    <style>
+      .visual-carousel-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2em;
+      }
+      .visual-carousel-label {
+        width: 120px;
+        min-width: 100px;
+        font-weight: bold;
+        color: #f0f0f0;
+        text-align: center;
+        margin-right: 12px;
+        font-size: 1.0em;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 0.6em 0.8em;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      }
+      .visual-carousel-container {
+        position: relative;
+        overflow: hidden;
+        flex: 1;
+        min-width: 0;
+      }
+      .visual-carousel-track {
+        display: flex;
+        width: max-content;
+        animation: visualCarouselScroll 12s linear infinite;
+        gap: 0.5rem;
+      }
+      .visual-carousel-container:hover .visual-carousel-track {
+        animation-play-state: paused;
+      }
+      .visual-carousel-img {
+        height: 200px;
+        width: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        background-color: white;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .visual-carousel-img:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      }
+      @keyframes visualCarouselScroll {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      @media (max-width: 900px) {
+        .visual-carousel-label { width: 100px; font-size: 0.95em;}
+        .visual-carousel-img { height: 150px; }
+      }
+      @media (max-width: 900px) {
+        .visual-carousel-label { width: 80px; font-size: 0.9em; margin-right: 8px;}
+        .visual-carousel-img { height: 150px; }
+      }
+      .visual-carousel-track.paused {
+        animation-play-state: paused !important;
+      }
+    </style>
+    <!-- GT Image Row -->
+    <div class="visual-carousel-row">
+      <div class="visual-carousel-label">GT Image</div>
+      <div class="visual-carousel-container">
+        <div class="visual-carousel-track">
+          <img class="visual-carousel-img" src="static/img/comp/gt1.png" alt="GT1">
+          <img class="visual-carousel-img" src="static/img/comp/gt2.png" alt="GT2">
+          <img class="visual-carousel-img" src="static/img/comp/gt3.png" alt="GT3">
+          <img class="visual-carousel-img" src="static/img/comp/gt4.png" alt="GT4">
+          <img class="visual-carousel-img" src="static/img/comp/gt5.png" alt="GT5">
+          <!-- duplicate for infinite loop -->
+          <img class="visual-carousel-img" src="static/img/comp/gt1.png" alt="GT1">
+          <img class="visual-carousel-img" src="static/img/comp/gt2.png" alt="GT2">
+          <img class="visual-carousel-img" src="static/img/comp/gt3.png" alt="GT3">
+          <img class="visual-carousel-img" src="static/img/comp/gt4.png" alt="GT4">
+          <img class="visual-carousel-img" src="static/img/comp/gt5.png" alt="GT5">
+        </div>
+      </div>
+    </div>
+    <!-- Gemini Row -->
+    <div class="visual-carousel-row">
+      <div class="visual-carousel-label">Gemini-2.5-pro</div>
+      <div class="visual-carousel-container">
+        <div class="visual-carousel-track">
+          <img class="visual-carousel-img" src="static/img/comp/gemini1.png" alt="Gemini1">
+          <img class="visual-carousel-img" src="static/img/comp/gemini2.png" alt="Gemini2">
+          <img class="visual-carousel-img" src="static/img/comp/gemini3.png" alt="Gemini3">
+          <img class="visual-carousel-img" src="static/img/comp/gemini4.png" alt="Gemini4">
+          <img class="visual-carousel-img" src="static/img/comp/gemini5.png" alt="Gemini5">
+          <img class="visual-carousel-img" src="static/img/comp/gemini1.png" alt="Gemini1">
+          <img class="visual-carousel-img" src="static/img/comp/gemini2.png" alt="Gemini2">
+          <img class="visual-carousel-img" src="static/img/comp/gemini3.png" alt="Gemini3">
+          <img class="visual-carousel-img" src="static/img/comp/gemini4.png" alt="Gemini4">
+          <img class="visual-carousel-img" src="static/img/comp/gemini5.png" alt="Gemini5">
+        </div>
+      </div>
+    </div>
+    <!-- Grok-3 Row -->
+    <div class="visual-carousel-row">
+      <div class="visual-carousel-label">Grok-3</div>
+      <div class="visual-carousel-container">
+        <div class="visual-carousel-track">
+          <img class="visual-carousel-img" src="static/img/comp/grok1.png" alt="Grok1">
+          <img class="visual-carousel-img" src="static/img/comp/grok2.png" alt="Grok2">
+          <img class="visual-carousel-img" src="static/img/comp/grok3.png" alt="Grok3">
+          <img class="visual-carousel-img" src="static/img/comp/grok4.png" alt="Grok4">
+          <img class="visual-carousel-img" src="static/img/comp/grok5.png" alt="Grok5">
+          <img class="visual-carousel-img" src="static/img/comp/grok1.png" alt="Grok1">
+          <img class="visual-carousel-img" src="static/img/comp/grok2.png" alt="Grok2">
+          <img class="visual-carousel-img" src="static/img/comp/grok3.png" alt="Grok3">
+          <img class="visual-carousel-img" src="static/img/comp/grok4.png" alt="Grok4">
+          <img class="visual-carousel-img" src="static/img/comp/grok5.png" alt="Grok5">
+        </div>
+      </div>
+    </div>
+    <!-- Qwen Row -->
+    <div class="visual-carousel-row">
+      <div class="visual-carousel-label">Qwen2.5-VL-72B</div>
+      <div class="visual-carousel-container">
+        <div class="visual-carousel-track">
+          <img class="visual-carousel-img" src="static/img/comp/qwen1.png" alt="Qwen1">
+          <img class="visual-carousel-img" src="static/img/comp/qwen2.png" alt="Qwen2">
+          <img class="visual-carousel-img" src="static/img/comp/qwen3.png" alt="Qwen3">
+          <img class="visual-carousel-img" src="static/img/comp/qwen4.png" alt="Qwen4">
+          <img class="visual-carousel-img" src="static/img/comp/qwen5.png" alt="Qwen5">
+          <img class="visual-carousel-img" src="static/img/comp/qwen1.png" alt="Qwen1">
+          <img class="visual-carousel-img" src="static/img/comp/qwen2.png" alt="Qwen2">
+          <img class="visual-carousel-img" src="static/img/comp/qwen3.png" alt="Qwen3">
+          <img class="visual-carousel-img" src="static/img/comp/qwen4.png" alt="Qwen4">
+          <img class="visual-carousel-img" src="static/img/comp/qwen5.png" alt="Qwen5">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function setCarouselPaused(paused) {
+    document.querySelectorAll('.visual-carousel-track').forEach(function(track) {
+      if(paused) track.classList.add('paused');
+      else track.classList.remove('paused');
+    });
+  }
+  document.querySelectorAll('.visual-carousel-container, .visual-carousel-img').forEach(function(el) {
+    el.addEventListener('mouseenter', function() { setCarouselPaused(true); });
+    el.addEventListener('mouseleave', function() { setCarouselPaused(false); });
+  });
+</script>
+                <div id='exp_2' class="sub-section">
+                    <h2 class="text">Iterative Refinements</h2>
+                    <p class="text">
+                        As the number of refinements increases, the performance of cases that performed poorly on gpt-4o gradually improves, even outperforming Gemini-2.5-pro.
+                    </p>
+                    <div class="exp-container text">
+                        <div class="chat-bubble user-prompt">
+                            <img src="static/img/ir/user1.svg" alt="User Icon" class="chat-icon">
+                            <div class="user-prompt-content">
+                                <div style="flex:1; color: #f0f0f0; font-size: 1.1em;">
+                                    <div style="margin-bottom: 0.5em;">Objective: Refine the parameters of all objects in a 3D scene JSON to closely match a provided ground truth (GT) image, under a fixed camera setup.</div>
+                                    <div>Goal: Achieve a refined scene JSON whose rendered image (with the fixed camera) is visually and spatially consistent with the GT image, in terms of object count, placement, size, shape, material, and inter-object relationships</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
+                                    <img src="static/img/refine/gt.png" alt="GT" style="max-height: 80px; border-radius: 8px; border: 1.5px solid #fff;">
+                                    <img src="static/img/refine/res.png" alt="Response" style="max-height: 80px; border-radius: 8px; border: 1.5px solid #fff;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="straight-arrow">&uarr;</div>
+
+                        <div class="agent-response-row">
+                            <div class="chat-bubble vlm-response">
+                                <img src="static/img/ir/VLM.jpg" alt="VLM Icon" class="chat-icon">
+                                <pre id="refine-output-code" style="background-color: transparent; color: inherit; padding: 0; margin: 0; white-space: pre-wrap; font-family: monospace; font-size: inherit;">Obj1{
+    "name": "brown large rubber cylinder",
+    "location": [-2.0, 2.0, 1.0],
+    "rotation_euler": [0.0, 0.0, 0.0],
+    "size_params": { "radius": 0.8, "depth": 2.0},
+    "material": {
+        "name": "BrownRubber",
+        "base_color": [ 0.6, 0.4, 0.2, 1.0 ],
+        "metallic": 0.0,
+        "roughness": 0.9 }
+}</pre>
+                            </div>
+                            
+                            <div class="flow-arrow">&rarr;</div>
+
+                            <div class="blender-container">
+                                <img src="static/img/refine/refine_video.gif" alt="Blender Render GIF" class="blender-gif">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/120px-Blender_logo_no_text.svg.png" alt="Blender Icon" class="blender-icon-overlay">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+            </div>
+            </div>
+        </div>
+
+
+        <div id="conclusion" style="position: relative; margin-top: 40px; margin-bottom: 0px;">
+            <h1 class="text" style="margin-top:0px; margin-bottom:10px">Conclusion</h1>
+            <p class="text">
+                IR3D-Bench redefines VLM scene understanding through agentic inverse rendering, challenging VLAs to reconstruct 3D scenes from 2D images via automatic tool-use.
+                Our experiments find that current VLMs grasp high-level object attributes and tool-use abilities, but struggle with precise spatial control.
+                We found that iterative refinement and careful prompt design can improve reconstruction quality, providing guidance for future VLM research.
+                With IR3D-Bench, we provide the community with a systematic framework to measure progress of VLM scene understanding, moving beyond passive observation to agentic understanding-by-creating.
+            </p>
+        </div>
+
+        </d-article>
+        <d-appendix>
+            <h3>BibTeX</h3>
+            <p class="bibtex">
+                @article{liu2025ir3d,<br>
+                &nbsp;&nbsp;title={IR3D-Bench: Evaluating Vision-Language Model Scene Understanding as Agentic Inverse Rendering},<br>
+                &nbsp;&nbsp;author={Liu, Hengyu and Li, Chenxin and Li, Zhengxin and Wu, Yipeng, and Li, Wuyang and Yang, Zhiqin and Zhang, Zhenyuan and Lin, Yunlong and Han, Sirui and Feng, Brandon},<br>
+                &nbsp;&nbsp;journal={arXiv preprint},<br>
+                &nbsp;&nbsp;year={2025}<br>
+                }
+            </p>
+            <p class="text">
+                The website template was originally borrowed from <a href="https://cambrian-mllm.github.io/">here</a>.
+                </p>
+            <d-footnote-list></d-footnote-list>
+            <d-citation-list></d-citation-list>
+        </d-appendix>
+        <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+        
+        <script src="./static/js/nav-bar.js"></script>
+    </body>
+</html>
+
+        </d-appendix>
+        <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
+        <script src="./static/js/nav-bar.js"></script>
+    </body>
+</html>
+
