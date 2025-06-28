@@ -132,28 +132,19 @@
             </div>
         </div>
 
-        <div class="l-page video-container" style="max-width: 900px; width: 100%; margin: 20px auto; text-align: center;">
-            <video autoplay loop muted playsinline style="width: 100%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-                <source src="static/img/demo.mp4" type="video/mp4">
-            </video>
-        </div>
 
-        <p class="text abstract">
+        <video autoplay loop muted playsinline style="width: 100%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+            <source src="static/img/ir3d-demo.mp4" type="video/mp4">
+        </video>
 
-            Vision-language models (VLMs) excel at descriptive tasks, but <strong><a href="#motivation">&sect;whether they truly understand scenes from visual observations remains uncertain</a></strong>.
-
-            We introduce IR3D-Bench, a benchmark challenging VLMs to demonstrate understanding through active creation rather than passive recognition. 
-            Grounded in the <strong><a href="#dataset_intergation">&sect;analysis-by-synthesis paradigm</a></strong>, 
-            IR3D-Bench tasks Vision-Language Agents (VLAs)
-            with actively using programming and rendering tools to recreate the underlying 3D structure of an input image, 
-            achieving  <strong><a href="#inverse_rendering">&sect;agentic inverse rendering through tool use</a></strong>. 
-            
-            This "understanding-by-creating" approach probes the tool-using generative capacity of VLAs, 
-            moving beyond the descriptive or conversational capacity measured by traditional scene understanding benchmarks. 
-
-            We provide <strong><a href="#metrics">&sect;a comprehensive suite of metrics</a></strong> to evaluate geometric accuracy, spatial relations, appearance attributes, and overall plausibility. 
-
-            <strong><a href="#exp">&sect;Initial experimental results</a></strong> on agentic inverse rendering powered by various state-of-the-art VLMs highlight current limitations, particularly in visual precision rather than basic tool usage.
+        <p class="text">
+            We propose IR3D-Bench, a benchmark that challenges VLMs to demonstrate real scene understanding by actively recreating 3D structures from images using tools.
+            An "understanding-by-creating" approach that probes the generative and tool-using capacity of vision-language agents (VLAs), moving beyond the descriptive or conversational capacity measured by traditional scene understanding benchmarks.
+            <ul>
+              <li>Grounded in the <strong><a href="#dataset_intergation">&sect;analysis-by-synthesis paradigm</a></strong>, IR3D-Bench tasks Vision-Language Agents (VLAs) with using programming and rendering tools to reconstruct the underlying 3D structure of an input image, achieving <strong><a href="#inverse_rendering">&sect;agentic inverse rendering through tool use</a></strong>.</li>
+              <li>We provide <strong><a href="#metrics">&sect;a comprehensive suite of metrics</a></strong> to evaluate geometric accuracy, spatial relations, appearance attributes, and overall plausibility.</li>
+              <li><strong><a href="#exp">&sect;Initial experimental results</a></strong> on agentic inverse rendering with state-of-the-art VLMs highlight current limitations, especially in visual precision rather than basic tool usage.</li>
+            </ul>
         </p>
 
         <div class="icon-row">
@@ -201,12 +192,8 @@
             </div>
             
             <div id="stage1" class="sub-section">
-            <h2 class="text">Stage 1: Dataset Integration and Inverse Rendering </h2>
-                <d-figure id="fig-studyadapter" >
-                    <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/stage1.png" alt="Stage 1 Pipeline">
-                    </figure>
-                </d-figure>
+            <h1 class="text">Stage 1: Dataset Integration and Inverse Rendering </h1>
+                
                 
             </div>
 
@@ -673,8 +660,13 @@
                 outputting structured scene representations in JSON format. 
                 These predictions are subsequently used to reconstruct the scene in Blender.
             </p>
+            <d-figure id="fig-studyadapter" >
+                <figure>
+                    <img data-zoomable="" draggable="false" src="static/img/stage1.png" alt="Stage 1 Pipeline">
+                </figure>
+            </d-figure>
 
-            <div class="exp-container text">
+            <!-- <div class="exp-container text">
                     <div class="chat-bubble user-prompt">
                     <img src="static/img/ir/user1.svg" alt="User Icon" class="chat-icon">
                         <div class="user-prompt-content">
@@ -696,8 +688,8 @@
         "base_color": [ 0.6, 0.4, 0.2, 1.0 ],
         "metallic": 0.0,
         "roughness": 0.9 }
-}</pre>
-                        </div>
+}</pre> -->
+                        <!-- </div>
                         
                              <div class="flow-arrow">&rarr;</div>
 
@@ -706,7 +698,7 @@
                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/120px-Blender_logo_no_text.svg.png" alt="Blender Icon" class="blender-icon-overlay">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
         <div class="vision-block">
