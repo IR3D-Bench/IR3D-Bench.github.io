@@ -165,6 +165,22 @@ body {
   max-width: 100%;
 }
 
+.demo-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  background: #081325;
+}
+
+d-article .showreel-caption {
+  margin: 8px 0 24px;
+  color: #526477;
+  text-align: center;
+  font-size: 14px;
+}
+
 .header-image img {
   max-width: 100%; /* Ensure the image is never more than 100% of its container */
   height: auto; /* Maintain the aspect ratio of the image */
@@ -287,6 +303,108 @@ d-article .reconstruction-pair figure {
 
 .reconstruction-preview p {
   margin: 18px 0 0;
+}
+
+.reconstruction-preview .reconstruction-context {
+  margin: 0 0 18px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.research-context {
+  min-width: 0;
+  margin: 36px 0 20px;
+  padding-top: 24px;
+  border-top: 1px solid #d1dce4;
+}
+
+.research-context h2 {
+  margin-top: 0;
+}
+
+.research-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 24px;
+  color: #294b64;
+  font-size: 15px;
+}
+
+.research-flow span {
+  padding: 8px 12px;
+  background: #edf3f7;
+  border-radius: 5px;
+}
+
+.research-context .research-caption,
+.research-context .research-credits {
+  color: #526477;
+  font-size: 14px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.related-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #d1dce4;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.related-card-ours {
+  border-color: #ad7831;
+  background: #fffaf0;
+}
+
+.related-preview {
+  display: block;
+  border-bottom: 1px solid #e3e8ec;
+}
+
+.related-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+.related-card-copy {
+  padding: 12px 14px;
+}
+
+.related-date,
+.related-paper {
+  font-size: 13px;
+  color: #526477;
+}
+
+.related-card h4 {
+  margin: 4px 0;
+  font-size: 18px;
+  line-height: 1.25;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.related-card p {
+  margin: 4px 0 6px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 d-article #fig-radar figure {

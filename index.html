@@ -25,7 +25,6 @@
         <script defer="" src="./static/js/hider.js"></script>
         <script defer src="./static/js/image_interact.js"></script>
         <script defer src="./static/js/switch_videos.js"></script>
-        <script defer src="./static/js/lazy-video.js"></script>
 
         <link rel="stylesheet" href="./static/css/style.css">
         <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
@@ -71,7 +70,7 @@
                             <span>Code</span>
                         </a>
                         <!-- <br> -->
-                        <a href="https://youtu.be/tuFEgTn0gnM" class="button" target="_blank">
+                        <a href="#showreel" class="button">
                             <span class="icon is-small">
                                 <img src="https://www.logo.wine/a/logo/YouTube/YouTube-Icon-Full-Color-Logo.wine.svg" alt="Hugging Face logo" style="height: 1.5em;">
                             </span>
@@ -93,6 +92,7 @@
     <d-article>
         <section class="reconstruction-preview" aria-labelledby="reconstruction-preview-title">
             <h2 id="reconstruction-preview-title">Can a model recreate what it sees?</h2>
+            <p class="reconstruction-context"><strong>IR3D-Bench tests visual understanding through executable scene reconstruction.</strong> <a href="https://arxiv.org/abs/2506.23329v1">arXiv v1: June 2025</a> · <a href="#research-context">Research context</a></p>
             <div class="reconstruction-pair">
                 <figure>
                     <img src="static/img/comp/gt5.png" width="249" height="166" loading="lazy" decoding="async" data-zoomable alt="Input scene with nine objects, overlapping shapes, and mixed materials">
@@ -143,21 +143,21 @@
         </video> -->
 
         <video
+            id="showreel"
             class="demo-video"
+            aria-label="IR3D-Bench English showreel, 55 seconds"
+            width="1920"
+            height="1080"
             controls
-            data-autoplay
-            muted
-            loop
             playsinline
             webkit-playsinline
             preload="none"
-            poster="static/img/demo-poster.jpg"
+            poster="static/img/showreel-poster.jpg"
         >
-            <source src="static/img/ir3d-demo1.webm" type="video/webm">
-            <!-- <source src="static/img/ir3d-demo1.mp4" type="video/mp4"> -->
-            
-            <!-- Your browser does not support the video tag. -->
+            <source src="static/video/ir3d-showreel-55s-en.mp4" type="video/mp4">
+            <a href="static/video/ir3d-showreel-55s-en.mp4">Watch the English showreel.</a>
         </video>
+        <p class="showreel-caption">55-second overview · English · Click to play with sound</p>
         <!-- <div style="width: 100%; max-width: 800px; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
             <iframe
               src="https://www.youtube.com/embed/GRQ9ZjyP5tY?autoplay=1&mute=1&loop=1&playlist=GRQ9ZjyP5tY&controls=0&playsinline=1"
@@ -1454,9 +1454,94 @@
             </p>
         </div>
 
+        <section id="research-context" class="research-context" aria-labelledby="research-context-title">
+            <h2 id="research-context-title">Understanding by Creating</h2>
+            <p><strong>IR3D-Bench · June 2025.</strong> Test scene understanding through reconstruction. Measure geometry, spatial relations and appearance.</p>
+            <div class="research-flow" aria-label="IR3D-Bench evaluation workflow">
+                <span>Image</span><b aria-hidden="true">→</b><span>Scene parameters</span><b aria-hidden="true">→</b><span>Render &amp; compare</span>
+            </div>
+            <h3>Related Work</h3>
+            <p class="research-caption">Related questions, different tasks. Dates: arXiv v1. Click a preview to visit the project.</p>
+            <div class="related-grid">
+                <article class="related-card related-card-ours">
+                    <a class="related-preview" href="https://ir3d-bench.github.io/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/ir3d.webp" width="640" height="360" loading="lazy" decoding="async" alt="IR3D-Bench project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">Our work · Jun 2025</span>
+                        <h4><a href="https://ir3d-bench.github.io/" target="_blank" rel="noopener noreferrer">IR3D-Bench</a></h4>
+                        <p>Image into a measurable 3D scene.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2506.23329v1" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+                <article class="related-card">
+                    <a class="related-preview" href="https://fugtemypt123.github.io/VIGA-website/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/viga.webp" width="640" height="360" loading="lazy" decoding="async" alt="VIGA / BlenderBench project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">Jan 2026</span>
+                        <h4><a href="https://fugtemypt123.github.io/VIGA-website/" target="_blank" rel="noopener noreferrer">VIGA / BlenderBench</a></h4>
+                        <p>Visual feedback for 3D editing.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2601.11109" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+                <article class="related-card">
+                    <a class="related-preview" href="https://tiger-ai-lab.github.io/VisPhyWorld/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/visphyworld.webp" width="640" height="360" loading="lazy" decoding="async" alt="VisPhyWorld / VisPhyBench project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">Feb 2026</span>
+                        <h4><a href="https://tiger-ai-lab.github.io/VisPhyWorld/" target="_blank" rel="noopener noreferrer">VisPhyWorld / VisPhyBench</a></h4>
+                        <p>Physics videos into simulator code.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2602.13294" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+                <article class="related-card">
+                    <a class="related-preview" href="https://aigeeksgroup.github.io/Code2Worlds/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/code2worlds.webp" width="640" height="360" loading="lazy" decoding="async" alt="Code2Worlds / Code4D project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">Feb 2026</span>
+                        <h4><a href="https://aigeeksgroup.github.io/Code2Worlds/" target="_blank" rel="noopener noreferrer">Code2Worlds / Code4D</a></h4>
+                        <p>Text into dynamic 4D scenes.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2602.11757" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+                <article class="related-card">
+                    <a class="related-preview" href="https://sealical.github.io/physcodebench/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/physcodebench.webp" width="640" height="360" loading="lazy" decoding="async" alt="PhysCodeBench project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">Apr 2026</span>
+                        <h4><a href="https://sealical.github.io/physcodebench/" target="_blank" rel="noopener noreferrer">PhysCodeBench</a></h4>
+                        <p>Text into physics simulation code.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2604.23580" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+                <article class="related-card">
+                    <a class="related-preview" href="https://www.3dcodebench.com/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/3dcodebench.webp" width="640" height="360" loading="lazy" decoding="async" alt="3DCodeBench project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">May 2026</span>
+                        <h4><a href="https://www.3dcodebench.com/" target="_blank" rel="noopener noreferrer">3DCodeBench</a></h4>
+                        <p>Text / image into procedural 3D assets.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2606.01057" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+                <article class="related-card">
+                    <a class="related-preview" href="https://mirros-lab.github.io/code-as-world/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/code-as-worlds.webp" width="640" height="360" loading="lazy" decoding="async" alt="Code as Worlds project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">Aug 2026</span>
+                        <h4><a href="https://mirros-lab.github.io/code-as-world/" target="_blank" rel="noopener noreferrer">Code as Worlds</a></h4>
+                        <p>Executable worlds for physical reasoning.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2608.27549" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+                <article class="related-card">
+                    <a class="related-preview" href="https://4dcodebench.com/" target="_blank" rel="noopener noreferrer"><img src="static/img/related/4dcodebench.webp" width="640" height="360" loading="lazy" decoding="async" alt="4DCodeBench project preview"></a>
+                    <div class="related-card-copy">
+                        <span class="related-date">Oct 2026</span>
+                        <h4><a href="https://4dcodebench.com/" target="_blank" rel="noopener noreferrer">4DCodeBench</a></h4>
+                        <p>Video into 4D graphics programs.</p>
+                        <a class="related-paper" href="https://arxiv.org/abs/2610.03715" target="_blank" rel="noopener noreferrer">Paper</a>
+                    </div>
+                </article>
+            </div>
+            <p class="research-credits">Preview images credit their respective authors. <a href="static/img/related/SOURCES.md">Image sources</a> · <a href="#citation">Cite IR3D-Bench</a></p>
+        </section>
+
         </d-article>
         <d-appendix>
-            <h3>BibTeX</h3>
+            <h3 id="citation">BibTeX</h3>
             <p class="bibtex">
                 @article{liu2025ir3d,<br>
                 &nbsp;&nbsp;title={IR3D-Bench: Evaluating Vision-Language Model Scene Understanding as Agentic Inverse Rendering},<br>
