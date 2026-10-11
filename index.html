@@ -20,6 +20,9 @@
         <meta name="twitter:title" content="IR3D-Bench: Evaluating Vision-Language Model Scene Understanding as Agentic Inverse Rendering." />
         <meta name="twitter:description" content="We introduce IR3D-Bench, a benchmark that challenges vision-language models to demonstrate real scene understanding by recreating 3D structures from images using tools, not just describing them." />
 
+        <!-- Render the layout before deferred scripts; this ID prevents duplicate injection. -->
+        <link id="distill-prerendered-styles" rel="stylesheet" href="./static/css/distill-base.css">
+        <link rel="stylesheet" href="./static/css/distill-appendix.css">
         <script defer src="./static/js/distill_template.v2.js"></script>
 
         <script defer="" src="./static/js/hider.js"></script>
@@ -1540,7 +1543,7 @@
         </section>
 
         </d-article>
-        <d-appendix>
+        <d-appendix distill-prerendered>
             <h3 id="citation">BibTeX</h3>
             <p class="bibtex">
                 @article{liu2025ir3d,<br>
