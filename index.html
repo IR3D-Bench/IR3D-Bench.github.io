@@ -20,31 +20,19 @@
         <meta name="twitter:title" content="IR3D-Bench: Evaluating Vision-Language Model Scene Understanding as Agentic Inverse Rendering." />
         <meta name="twitter:description" content="We introduce IR3D-Bench, a benchmark that challenges vision-language models to demonstrate real scene understanding by recreating 3D structures from images using tools, not just describing them." />
 
-        <script src="./static/js/distill_template.v2.js"></script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-        <script src="https://d3js.org/d3.v5.min.js"></script>
-        <script src="https://d3js.org/d3-collection.v1.min.js"></script>
-        <script src="https://rawgit.com/nstrayer/slid3r/master/dist/slid3r.js"></script>
+        <script defer src="./static/js/distill_template.v2.js"></script>
 
         <script defer="" src="./static/js/hider.js"></script>
-        <script src="./static/js/image_interact.js"></script>
-        <script src="./static/js/switch_videos.js"></script>
+        <script defer src="./static/js/image_interact.js"></script>
+        <script defer src="./static/js/switch_videos.js"></script>
+        <script defer src="./static/js/lazy-video.js"></script>
 
         <link rel="stylesheet" href="./static/css/style.css">
         <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-            onload="renderMathInElement(document.body);"></script>
-        <script defer src="./static/js/fontawesome.all.min.js"></script>
+        <link rel="stylesheet" href="./static/css/academicons.min.css">
 
 
         <!-- medium zoom https://github.com/francoischalifour/medium-zoom -->
-        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>  <!-- jquery -->
         <script defer src="./static/js/medium-zoom.min.js"></script>
         <script defer src="./static/js/zoom.js"></script>
     </head>
@@ -98,11 +86,25 @@
                     </div>
                 </div>
                 <div class="header-image">
-                    <img draggable="false" src="static/img/IR3D.png" alt="Teaser Image" class="teaser-image">
+                    <img draggable="false" src="static/img/IR3D.webp" width="1000" height="1000" fetchpriority="high" alt="Teaser Image" class="teaser-image">
                 </div>
             </div>
         </div>
     <d-article>
+        <section class="reconstruction-preview" aria-labelledby="reconstruction-preview-title">
+            <h2 id="reconstruction-preview-title">Can a model recreate what it sees?</h2>
+            <div class="reconstruction-pair">
+                <figure>
+                    <img src="static/img/comp/gt1.png" width="249" height="166" loading="lazy" decoding="async" data-zoomable alt="Input scene with a purple cube and green and brown cylinders">
+                    <figcaption>Input image (ground truth)</figcaption>
+                </figure>
+                <figure>
+                    <img src="static/img/comp/gemini1.png" width="249" height="166" loading="lazy" decoding="async" data-zoomable alt="Gemini-2.5-pro reconstruction of the same three-object scene">
+                    <figcaption>Reconstruction · Gemini-2.5-pro</figcaption>
+                </figure>
+            </div>
+            <p>The three objects are recognizable, but their size, orientation and appearance differ. This is one qualitative example, not an aggregate score. <a href="#exp">See the full results and model comparisons.</a></p>
+        </section>
         <div class="byline">
             <div class="byline-container" style="text-align: center;">
                 <p>
@@ -118,12 +120,12 @@
                     <a href="https://brandonyfeng.github.io/" class="author-link" target="_blank">Brandon Y. Feng<sup>6,&dagger;</sup></a>
                 </p>
                 <p>
-                    <sup>1</sup>CUHK <img src="static/img/logo/1_CUHK.jpg" alt="CUHK logo" style="height: 1em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
-                    <sup>2</sup>TJU <img src="static/img/logo/2_tju.png" alt="TJU logo" style="height: 1em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
-                    <sup>3</sup>EPFL <img src="static/img/logo/3_epfl.svg" alt="EPFL logo" style="height: 0.6em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
-                    <sup>4</sup>HKUST <img src="static/img/logo/4_hkust.png" alt="HKUST logo" style="height: 1.0em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
-                    <sup>5</sup>XMU <img src="static/img/logo/5_xmu.png" alt="XMU logo" style="height: 1em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
-                    <sup>6</sup>MIT <img src="static/img/logo/6_mit.png" alt="MIT logo" style="height: 1.5em; vertical-align: middle; margin-left: 0px;">
+                    <sup>1</sup>CUHK <img loading="lazy" decoding="async" src="static/img/logo/1_CUHK.jpg" alt="CUHK logo" style="height: 1em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
+                    <sup>2</sup>TJU <img loading="lazy" decoding="async" src="static/img/logo/2_tju.png" alt="TJU logo" style="height: 1em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
+                    <sup>3</sup>EPFL <img loading="lazy" decoding="async" src="static/img/logo/3_epfl.svg" alt="EPFL logo" style="height: 0.6em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
+                    <sup>4</sup>HKUST <img loading="lazy" decoding="async" src="static/img/logo/4_hkust.png" alt="HKUST logo" style="height: 1.0em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
+                    <sup>5</sup>XMU <img loading="lazy" decoding="async" src="static/img/logo/5_xmu.png" alt="XMU logo" style="height: 1em; vertical-align: middle; margin-left: 0px; margin-right: 5px;">,
+                    <sup>6</sup>MIT <img loading="lazy" decoding="async" src="static/img/logo/6_mit.png" alt="MIT logo" style="height: 1.5em; vertical-align: middle; margin-left: 0px;">
                 </p>
                 <p style="text-align: center; margin-bottom: 0;">
                     <span class="author-note"><sup>*</sup>Equal Contribution</span>&emsp;
@@ -143,13 +145,13 @@
         <video
             class="demo-video"
             controls
-            autoplay
+            data-autoplay
             muted
             loop
             playsinline
             webkit-playsinline
-            preload="metadata"
-            poster="static/img/thumbnail.jpg"
+            preload="none"
+            poster="static/img/demo-poster.jpg"
         >
             <source src="static/img/ir3d-demo1.webm" type="video/webm">
             <!-- <source src="static/img/ir3d-demo1.mp4" type="video/mp4"> -->
@@ -178,26 +180,26 @@
 
         <div class="icon-row">
             <a href="#dataset_intergation" class="icon-link">
-                <img src="static/img/icons/recipe.svg" alt="Visual Representation Logo" class="icon">
+                <img loading="lazy" decoding="async" src="static/img/icons/recipe.svg" alt="Visual Representation Logo" class="icon">
                 Dataset<br>Integration
             </a>
             
             <a href="#inverse_rendering" class="icon-link">
-                <img src="static/img/icons/visual.svg" alt="Data Logo" class="icon">
+                <img loading="lazy" decoding="async" src="static/img/icons/visual.svg" alt="Data Logo" class="icon">
                 Inverse<br>Rendering
             </a>
             <a href="#metrics" class="icon-link">
-                <img src="static/img/icons/eval.svg" alt="Recipe Logo" class="icon">
+                <img loading="lazy" decoding="async" src="static/img/icons/eval.svg" alt="Recipe Logo" class="icon">
                 Benchmark<br>Metrics
             </a>
-            <a href="#results" class="icon-link">
-                <img src="static/img/icons/data.svg" alt="Connector Logo" class="icon">
+            <a href="#exp" class="icon-link">
+                <img loading="lazy" decoding="async" src="static/img/icons/data.svg" alt="Connector Logo" class="icon">
                 Experimental<br>Results
             </a>
         </div>
 
         <p class="click-hint" style="width: 85%;">
-            <img src="static/img/icons/click.gif" style="width: 1.5rem">
+            <img loading="lazy" decoding="async" src="static/img/icons/click.gif" style="width: 1.5rem">
             <strong>Click to jump to each section.</strong>
         </p>
         <hr>
@@ -208,7 +210,7 @@
 
                     <d-figure id="fig-comparison" >
                         <figure>
-                            <img data-zoomable="" draggable="false" src="static/img/teaser.png" alt="benchmark category">
+                            <img loading="lazy" decoding="async" data-zoomable="" draggable="false" src="static/img/teaser.png" width="5872" height="1709" style="height: auto;" alt="benchmark category">
                         </figure>
                     </d-figure>
                     <p class="text">
@@ -239,42 +241,42 @@
                     <div class="image-carousel-container">
                         <div class="image-carousel">
                             <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000000.json">
-                                <img src="static/img/dataset/CLEVR_val_000000.png" alt="CLEVR Dataset Sample 1">
+                                <img loading="lazy" decoding="async" src="static/img/dataset/CLEVR_val_000000.png" alt="CLEVR Dataset Sample 1">
                                 <script type="application/json">
                                     {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":0,"objects":[{"color":"brown","size":"large","rotation":178.92387258999463,"shape":"cylinder","3d_coords":[-1.4937210083007812,-1.9936031103134155,0.699999988079071],"material":"rubber","pixel_coords":[119,131,10.801968574523926]},{"color":"gray","size":"large","rotation":243.405459279722,"shape":"cube","3d_coords":[1.555708646774292,-2.104736566543579,0.699999988079071],"material":"rubber","pixel_coords":[198,190,8.60103988647461]},{"color":"green","size":"small","rotation":230.45235024165092,"shape":"cylinder","3d_coords":[-2.342184543609619,-0.5205014944076538,0.3499999940395355],"material":"rubber","pixel_coords":[161,118,12.372727394104004]},{"color":"purple","size":"large","rotation":31.654351858799153,"shape":"sphere","3d_coords":[-0.8073106408119202,1.914123773574829,0.699999988079071],"material":"metal","pixel_coords":[282,100,12.495001792907715]},{"color":"gray","size":"small","rotation":42.183287560575,"shape":"cube","3d_coords":[2.6763813495635986,0.03453871235251427,0.3499999940395355],"material":"metal","pixel_coords":[337,195,9.161211967468262]}],"relationships":{"right":[[1,2,3,4],[3,4],[1,3,4],[4],[]],"behind":[[2,3],[0,2,3,4],[3],[],[0,2,3]],"front":[[1,4],[],[0,1,4],[0,1,2,4],[1]],"left":[[],[0,2],[0],[0,1,2],[0,1,2,3]]},"image_filename":"CLEVR_val_000000.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
                                 </script>
                             </div>
                             
                             <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000001.json">
-                                <img src="static/img/dataset/CLEVR_val_000001.png" alt="CLEVR Dataset Sample 2">
+                                <img loading="lazy" decoding="async" src="static/img/dataset/CLEVR_val_000001.png" alt="CLEVR Dataset Sample 2">
                                 <script type="application/json">
                                     {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":1,"objects":[{"color":"blue","size":"small","rotation":87.2092786731497,"shape":"cylinder","3d_coords":[-1.4019312858581543,0.9176712036132812,0.3499999940395355],"material":"metal","pixel_coords":[227,114,12.651700019836426]},{"color":"blue","size":"large","rotation":196.10032228152653,"shape":"cylinder","3d_coords":[2.56838321685791,2.8128368854522705,0.699999988079071],"material":"rubber","pixel_coords":[419,128,11.159161567687988]},{"color":"purple","size":"large","rotation":335.9272462668898,"shape":"sphere","3d_coords":[2.9524991512298584,0.7795983552932739,0.699999988079071],"material":"metal","pixel_coords":[382,168,9.672847747802734]},{"color":"yellow","size":"small","rotation":148.95236071940306,"shape":"cube","3d_coords":[-0.6843340992927551,2.7821667194366455,0.3499999940395355],"material":"metal","pixel_coords":[299,102,13.345067024230957]},{"color":"gray","size":"large","rotation":80.12030414245824,"shape":"cylinder","3d_coords":[-2.4355783462524414,-2.236754894256592,0.699999988079071],"material":"metal","pixel_coords":[85,127,11.196852684020996]},{"color":"cyan","size":"small","rotation":331.3705215814606,"shape":"cube","3d_coords":[-2.969482421875,1.423396110534668,0.3499999940395355],"material":"metal","pixel_coords":[200,92,13.94270133972168]},{"color":"cyan","size":"small","rotation":285.3619516996765,"shape":"cylinder","3d_coords":[2.6561522483825684,-1.5428955554962158,0.3499999940395355],"material":"rubber","pixel_coords":[286,229,8.604046821594238]},{"color":"blue","size":"large","rotation":284.89181152858265,"shape":"cube","3d_coords":[1.3208903074264526,0.4931657910346985,0.699999988079071],"material":"metal","pixel_coords":[304,144,10.518533706665039]},{"color":"green","size":"small","rotation":179.1419631256681,"shape":"cylinder","3d_coords":[-0.4053439795970917,-2.4375929832458496,0.3499999940395355],"material":"metal","pixel_coords":[133,180,9.971955299377441]},{"color":"yellow","size":"small","rotation":334.56764345600396,"shape":"cylinder","3d_coords":[0.9365460872650146,-2.5308165550231934,0.3499999940395355],"material":"rubber","pixel_coords":[173,210,9.074959754943848]}],"relationships":{"right":[[1,2,3,6,7],[],[1],[1,2],[0,1,2,3,5,6,7,8,9],[0,1,2,3,6,7],[1,2,3,7],[1,2,3],[0,1,2,3,5,6,7,9],[0,1,2,3,5,6,7]],"behind":[[1,3,5],[0,1,2,3,5,6,7,8,9],[1,3,5],[1,5],[],[1],[0,1,2,3,5,7,8,9],[1,3,5],[0,1,2,3,5,6,7],[0,1,2,3,5,6,7,8]],"front":[[2,4,6,7,8,9],[],[0,4,6,7,8,9],[0,2,4,6,7,8,9],[0,1,2,3,5,6,7,8,9],[2,4,6,7,8,9],[4,8,9],[],[],[]],"left":[[],[0,2,3,4,5,6,7,8,9],[0,3,4,5,8,9],[0,4,5,8,9],[0,2,3,5,6,7,8,9],[0,3,4],[0,2,3,4,5,8,9],[0,2,3,4,5,6,8,9],[0,2,3,4,5],[0,2,3,4,5,8]]},"image_filename":"CLEVR_val_000001.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
                                 </script>
                             </div>
                             
                             <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000002.json">
-                                <img src="static/img/dataset/CLEVR_val_000002.png" alt="CLEVR Dataset Sample 3">
+                                <img loading="lazy" decoding="async" src="static/img/dataset/CLEVR_val_000002.png" alt="CLEVR Dataset Sample 3">
                                 <script type="application/json">
                                     {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":2,"objects":[{"color":"purple","size":"large","rotation":24.266859933294032,"shape":"cube","3d_coords":[0.9164416790008545,2.5542008876800537,0.699999988079071],"material":"metal","pixel_coords":[349,113,12.158169746398926]},{"color":"yellow","size":"large","rotation":126.90972419473805,"shape":"sphere","3d_coords":[-2.3131093978881836,1.4229497909545898,0.699999988079071],"material":"metal","pixel_coords":[223,86,13.650497436523438]},{"color":"blue","size":"small","rotation":156.39099006528448,"shape":"cube","3d_coords":[-2.4592032432556152,-2.859107732772827,0.3499999940395355],"material":"metal","pixel_coords":[67,146,11.473008155822754]},{"color":"green","size":"small","rotation":42.165222443059704,"shape":"sphere","3d_coords":[1.6640125513076782,-0.6807796955108643,0.3499999940395355],"material":"metal","pixel_coords":[270,187,9.986722946166992]},{"color":"purple","size":"large","rotation":76.43620097602489,"shape":"cylinder","3d_coords":[2.9267563819885254,1.7387181520462036,0.699999988079071],"material":"metal","pixel_coords":[404,156,10.361809730529785]},{"color":"brown","size":"small","rotation":346.39110722841224,"shape":"cylinder","3d_coords":[-2.6752941608428955,-0.15827248990535736,0.3499999940395355],"material":"metal","pixel_coords":[166,111,13.157706260681152]},{"color":"gray","size":"large","rotation":271.4579996980617,"shape":"cylinder","3d_coords":[2.776763439178467,-2.3596839904785156,0.699999988079071],"material":"rubber","pixel_coords":[242,235,8.121735572814941]},{"color":"yellow","size":"large","rotation":26.23470743173072,"shape":"cube","3d_coords":[0.945395290851593,-2.2262401580810547,0.699999988079071],"material":"rubber","pixel_coords":[180,185,9.410319328308105]}],"relationships":{"right":[[4],[0,3,4,6],[0,1,3,4,5,6,7],[0,4],[0,3,4],[0,1,2,3,4,6,7],[0,3,4],[0,1,2,3,4,6]],"behind":[[1,5],[0,2,3,4,5,6,7],[0,3],[],[0,1,2,3,5,6],[0,1,2,3,6],[0,2,3]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000002.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
                                 </script>
                             </div>
                             
                             <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000003.json">
-                                <img src="static/img/dataset/CLEVR_val_000003.png" alt="CLEVR Dataset Sample 4">
+                                <img loading="lazy" decoding="async" src="static/img/dataset/CLEVR_val_000003.png" alt="CLEVR Dataset Sample 4">
                                 <script type="application/json">
                                     {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":3,"objects":[{"color":"yellow","size":"small","rotation":52.53684703422393,"shape":"sphere","3d_coords":[2.1417222023010254,-2.7576637268066406,0.3499999940395355],"material":"rubber","pixel_coords":[197,247,8.038165092468262]},{"color":"purple","size":"large","rotation":277.821313290429,"shape":"sphere","3d_coords":[-2.072401523590088,2.136496067047119,0.699999988079071],"material":"metal","pixel_coords":[249,81,13.48475170135498]},{"color":"blue","size":"large","rotation":77.97216669037716,"shape":"cylinder","3d_coords":[-0.528790295124054,2.905188798904419,0.699999988079071],"material":"metal","pixel_coords":[315,90,12.911911010742188]},{"color":"gray","size":"large","rotation":277.43883851053334,"shape":"cube","3d_coords":[-0.9423105716705322,-2.95906138420105,0.699999988079071],"material":"rubber","pixel_coords":[87,159,9.787914276123047]},{"color":"brown","size":"small","rotation":215.92210360473527,"shape":"cylinder","3d_coords":[-0.9988107085227966,-1.528560996055603,0.3499999940395355],"material":"metal","pixel_coords":[152,151,10.821432113647461]},{"color":"purple","size":"large","rotation":214.7023250953585,"shape":"sphere","3d_coords":[0.4423714578151703,1.3085707426071167,0.699999988079071],"material":"metal","pixel_coords":[299,120,11.346577644348145]},{"color":"brown","size":"small","rotation":31.799854282664057,"shape":"cylinder","3d_coords":[-1.8510726690292358,-0.1959560215473175,0.3499999940395355],"material":"rubber","pixel_coords":[181,121,12.15542221069336]}],"relationships":{"right":[[1,2,5],[2,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[2],[0,1,2,5]],"behind":[[3],[0,2,3,6],[0,3],[],[0,1,2,3,5,6],[0,1,2,3,6],[0,2,3]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000003.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
                                 </script>
                             </div>
                             
                             <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000004.json">
-                                <img src="static/img/dataset/CLEVR_val_000004.png" alt="CLEVR Dataset Sample 5">
+                                <img loading="lazy" decoding="async" src="static/img/dataset/CLEVR_val_000004.png" alt="CLEVR Dataset Sample 5">
                                 <script type="application/json">
                                         {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":4,"objects":[{"color":"red","size":"small","rotation":103.96810996862779,"shape":"sphere","3d_coords":[-1.3702292442321777,-2.155432939529419,0.3499999940395355],"material":"rubber","pixel_coords":[110,154,10.136273384094238]},{"color":"brown","size":"large","rotation":300.285267307425,"shape":"sphere","3d_coords":[0.46740391850471497,-2.6708884239196777,0.699999988079071],"material":"rubber","pixel_coords":[137,183,8.460342407226562]},{"color":"purple","size":"small","rotation":123.9522959520619,"shape":"cylinder","3d_coords":[-1.6677716970443726,1.5341471433639526,0.3499999940395355],"material":"rubber","pixel_coords":[241,103,12.526554107666016]},{"color":"gray","size":"large","rotation":27.441103922672664,"shape":"cylinder","3d_coords":[2.624936103820801,1.3213320970535278,0.699999988079071],"material":"rubber","pixel_coords":[393,153,9.417881965637207]},{"color":"gray","size":"large","rotation":277.7327613525135,"shape":"sphere","3d_coords":[0.3835722506046295,2.3025729656219482,0.699999988079071],"material":"metal","pixel_coords":[330,105,11.473976135253906]},{"color":"green","size":"large","rotation":62.00128204401709,"shape":"cylinder","3d_coords":[-2.771306276321411,-2.472614049911499,0.699999988079071],"material":"rubber","pixel_coords":[59,121,10.705843925476074]}],"relationships":{"right":[[1,2,3,4],[2,3,4],[3,4],[],[3],[0,1,2,3,4]],"behind":[[2,4,5],[0,2,3,4,5],[],[0,2,4,5],[2],[2,4]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000004.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
                                 </script>
                             </div>
                             
                             <div class="carousel-item" data-json-src="static/img/dataset/CLEVR_val_000005.json">
-                                <img src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6">
+                                <img loading="lazy" decoding="async" src="static/img/dataset/CLEVR_val_000005.png" alt="CLEVR Dataset Sample 6">
                                 <script type="application/json">
                                     {"info":{"split":"val","license":"Creative Commons Attribution (CC BY 4.0)","version":"1.0","date":"2/14/2017"},"documentation":{},"scenes":[{"image_index":5,"objects":[{"color":"yellow","size":"small","rotation":312.44380611548513,"shape":"cube","3d_coords":[-0.6884685754776001,1.4769357442855835,0.3499999940395355],"material":"rubber","pixel_coords":[268,119,12.629888534545898]},{"color":"gray","size":"large","rotation":301.9143106752324,"shape":"sphere","3d_coords":[-0.4024123251438141,-1.1227504014968872,0.699999988079071],"material":"metal","pixel_coords":[186,139,10.785597801208496]},{"color":"blue","size":"small","rotation":147.11529758732306,"shape":"cube","3d_coords":[-1.9388166666030884,-0.8367786407470703,0.3499999940395355],"material":"metal","pixel_coords":[158,128,12.150248527526855]},{"color":"yellow","size":"large","rotation":306.2918951162928,"shape":"sphere","3d_coords":[-1.4938887357711792,2.907089948654175,0.699999988079071],"material":"metal","pixel_coords":[288,83,13.830824851989746]},{"color":"blue","size":"small","rotation":210.8307452645328,"shape":"cube","3d_coords":[1.7929556369781494,-2.2758824825286865,0.3499999940395355],"material":"metal","pixel_coords":[206,220,8.803750991821289]},{"color":"yellow","size":"large","rotation":73.44739856943892,"shape":"sphere","3d_coords":[-0.7093875408172607,-2.8273890018463135,0.699999988079071],"material":"rubber","pixel_coords":[103,159,10.017038345336914]},{"color":"yellow","size":"large","rotation":344.38317584188644,"shape":"sphere","3d_coords":[1.2460074424743652,2.012741804122925,0.699999988079071],"material":"metal","pixel_coords":[347,124,11.466705322265625]}],"relationships":{"right":[[3,6],[0,3,4,6],[0,1,3,4,6],[6],[0,3,6],[0,1,2,3,4,6],[]],"behind":[[3],[0,2,3,6],[0,3],[],[0,1,2,3,5,6],[0,1,2,3,6],[0,2,3]],"front":[[1,2,4,5,6],[4,5],[1,4,5,6],[0,1,2,4,5,6],[],[4],[1,4,5]],"left":[[1,2,4,5],[2,4,5],[],[0,1,2,4,5,6],[0,1,2,5,6],[0,1,2,3,4,6],[0,1,2,3,4,5]]},"image_filename":"CLEVR_val_000005.png","split":"val","directions":{"right":[0.6563112735748291,0.7544902563095093,-0.0],"behind":[-0.754490315914154,0.6563112735748291,0.0],"above":[0.0,0.0,1.0],"below":[-0.0,-0.0,-1.0],"left":[-0.6563112735748291,-0.7544902563095093,0.0],"front":[0.754490315914154,-0.6563112735748291,-0.0]}}]}
                                 </script>
@@ -691,7 +693,7 @@
             </p>
             <d-figure id="fig-studyadapter" >
                 <figure>
-                    <img data-zoomable="" draggable="false" src="static/img/stage1.png" alt="Stage 1 Pipeline">
+                    <img loading="lazy" decoding="async" data-zoomable="" draggable="false" src="static/img/stage1.png" width="3079" height="1069" style="height: auto;" alt="Stage 1 Pipeline">
                 </figure>
             </d-figure>
 
@@ -745,7 +747,7 @@
                 </ul>
                 <d-figure id="fig-studyadapter" >
                     <figure>
-                        <img data-zoomable="" draggable="false" src="static/img/stage2.png" alt="Stage 2 Pipeline">
+                        <img loading="lazy" decoding="async" data-zoomable="" draggable="false" src="static/img/stage2.png" width="3110" height="750" style="height: auto;" alt="Stage 2 Pipeline">
                     </figure>
                 </d-figure>
                 
@@ -767,9 +769,9 @@
                     </p>
                     <h3 class="text">Holistic comparison over Metrics Suite</h3>
                     
-                    <d-figure id="fig-studyadapter" >
+                    <d-figure id="fig-radar" >
                         <figure>
-                            <img data-zoomable="" draggable="false" src="static/img/radar.png" alt="Stage 2 Pipeline">
+                            <img loading="lazy" decoding="async" data-zoomable="" draggable="false" src="static/img/radar.png" width="3934" height="3070" style="height: auto;" alt="Model comparison across the benchmark metrics">
                         </figure>
                     </d-figure>
 
@@ -1235,12 +1237,15 @@
                     </div>
                     <h3 class="text">Visual Results</h3>
 <div class="text" style="grid-column: text;">
-  <div class="visual-carousel-block" style="margin: 1rem 0; padding: 1.5rem 1rem; background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%); border-radius: 12px;">
+  <div class="visual-carousel-block" style="margin: 1rem 0; padding: 1rem; background: linear-gradient(120deg, #081325, #2c4a6e 80%, #a89467 100%); border-radius: 12px;">
     <style>
       .visual-carousel-row {
         display: flex;
         align-items: center;
-        margin-bottom: 2em;
+        margin-bottom: 16px;
+      }
+      .visual-carousel-row:last-child {
+        margin-bottom: 0;
       }
       .visual-carousel-label {
         width: 120px;
@@ -1273,7 +1278,7 @@
         animation-play-state: paused;
       }
       .visual-carousel-img {
-        height: 200px;
+        height: 130px;
         width: auto;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -1290,12 +1295,8 @@
         }
       }
       @media (max-width: 900px) {
-        .visual-carousel-label { width: 100px; font-size: 0.95em;}
-        .visual-carousel-img { height: 150px; }
-      }
-      @media (max-width: 900px) {
-        .visual-carousel-label { width: 80px; font-size: 0.9em; margin-right: 8px;}
-        .visual-carousel-img { height: 150px; }
+        .visual-carousel-label { width: 80px; min-width: 80px; font-size: 0.9em; margin-right: 8px;}
+        .visual-carousel-img { height: 110px; }
       }
       .visual-carousel-track.paused {
         animation-play-state: paused !important;
@@ -1306,17 +1307,17 @@
       <div class="visual-carousel-label">GT Image</div>
       <div class="visual-carousel-container">
         <div class="visual-carousel-track">
-          <img class="visual-carousel-img" src="static/img/comp/gt1.png" alt="GT1">
-          <img class="visual-carousel-img" src="static/img/comp/gt2.png" alt="GT2">
-          <img class="visual-carousel-img" src="static/img/comp/gt3.png" alt="GT3">
-          <img class="visual-carousel-img" src="static/img/comp/gt4.png" alt="GT4">
-          <img class="visual-carousel-img" src="static/img/comp/gt5.png" alt="GT5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt1.png" alt="GT1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt2.png" alt="GT2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt3.png" alt="GT3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt4.png" alt="GT4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt5.png" alt="GT5">
           <!-- duplicate for infinite loop -->
-          <img class="visual-carousel-img" src="static/img/comp/gt1.png" alt="GT1">
-          <img class="visual-carousel-img" src="static/img/comp/gt2.png" alt="GT2">
-          <img class="visual-carousel-img" src="static/img/comp/gt3.png" alt="GT3">
-          <img class="visual-carousel-img" src="static/img/comp/gt4.png" alt="GT4">
-          <img class="visual-carousel-img" src="static/img/comp/gt5.png" alt="GT5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt1.png" alt="GT1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt2.png" alt="GT2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt3.png" alt="GT3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt4.png" alt="GT4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gt5.png" alt="GT5">
         </div>
       </div>
     </div>
@@ -1325,16 +1326,16 @@
       <div class="visual-carousel-label">Gemini-2.5-pro</div>
       <div class="visual-carousel-container">
         <div class="visual-carousel-track">
-          <img class="visual-carousel-img" src="static/img/comp/gemini1.png" alt="Gemini1">
-          <img class="visual-carousel-img" src="static/img/comp/gemini2.png" alt="Gemini2">
-          <img class="visual-carousel-img" src="static/img/comp/gemini3.png" alt="Gemini3">
-          <img class="visual-carousel-img" src="static/img/comp/gemini4.png" alt="Gemini4">
-          <img class="visual-carousel-img" src="static/img/comp/gemini5.png" alt="Gemini5">
-          <img class="visual-carousel-img" src="static/img/comp/gemini1.png" alt="Gemini1">
-          <img class="visual-carousel-img" src="static/img/comp/gemini2.png" alt="Gemini2">
-          <img class="visual-carousel-img" src="static/img/comp/gemini3.png" alt="Gemini3">
-          <img class="visual-carousel-img" src="static/img/comp/gemini4.png" alt="Gemini4">
-          <img class="visual-carousel-img" src="static/img/comp/gemini5.png" alt="Gemini5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini1.png" alt="Gemini1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini2.png" alt="Gemini2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini3.png" alt="Gemini3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini4.png" alt="Gemini4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini5.png" alt="Gemini5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini1.png" alt="Gemini1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini2.png" alt="Gemini2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini3.png" alt="Gemini3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini4.png" alt="Gemini4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/gemini5.png" alt="Gemini5">
         </div>
       </div>
     </div>
@@ -1343,16 +1344,16 @@
       <div class="visual-carousel-label">Grok-3</div>
       <div class="visual-carousel-container">
         <div class="visual-carousel-track">
-          <img class="visual-carousel-img" src="static/img/comp/grok1.png" alt="Grok1">
-          <img class="visual-carousel-img" src="static/img/comp/grok2.png" alt="Grok2">
-          <img class="visual-carousel-img" src="static/img/comp/grok3.png" alt="Grok3">
-          <img class="visual-carousel-img" src="static/img/comp/grok4.png" alt="Grok4">
-          <img class="visual-carousel-img" src="static/img/comp/grok5.png" alt="Grok5">
-          <img class="visual-carousel-img" src="static/img/comp/grok1.png" alt="Grok1">
-          <img class="visual-carousel-img" src="static/img/comp/grok2.png" alt="Grok2">
-          <img class="visual-carousel-img" src="static/img/comp/grok3.png" alt="Grok3">
-          <img class="visual-carousel-img" src="static/img/comp/grok4.png" alt="Grok4">
-          <img class="visual-carousel-img" src="static/img/comp/grok5.png" alt="Grok5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok1.png" alt="Grok1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok2.png" alt="Grok2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok3.png" alt="Grok3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok4.png" alt="Grok4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok5.png" alt="Grok5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok1.png" alt="Grok1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok2.png" alt="Grok2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok3.png" alt="Grok3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok4.png" alt="Grok4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/grok5.png" alt="Grok5">
         </div>
       </div>
     </div>
@@ -1361,16 +1362,16 @@
       <div class="visual-carousel-label">Qwen2.5-VL-72B</div>
       <div class="visual-carousel-container">
         <div class="visual-carousel-track">
-          <img class="visual-carousel-img" src="static/img/comp/qwen1.png" alt="Qwen1">
-          <img class="visual-carousel-img" src="static/img/comp/qwen2.png" alt="Qwen2">
-          <img class="visual-carousel-img" src="static/img/comp/qwen3.png" alt="Qwen3">
-          <img class="visual-carousel-img" src="static/img/comp/qwen4.png" alt="Qwen4">
-          <img class="visual-carousel-img" src="static/img/comp/qwen5.png" alt="Qwen5">
-          <img class="visual-carousel-img" src="static/img/comp/qwen1.png" alt="Qwen1">
-          <img class="visual-carousel-img" src="static/img/comp/qwen2.png" alt="Qwen2">
-          <img class="visual-carousel-img" src="static/img/comp/qwen3.png" alt="Qwen3">
-          <img class="visual-carousel-img" src="static/img/comp/qwen4.png" alt="Qwen4">
-          <img class="visual-carousel-img" src="static/img/comp/qwen5.png" alt="Qwen5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen1.png" alt="Qwen1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen2.png" alt="Qwen2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen3.png" alt="Qwen3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen4.png" alt="Qwen4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen5.png" alt="Qwen5">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen1.png" alt="Qwen1">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen2.png" alt="Qwen2">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen3.png" alt="Qwen3">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen4.png" alt="Qwen4">
+          <img loading="lazy" decoding="async" class="visual-carousel-img" src="static/img/comp/qwen5.png" alt="Qwen5">
         </div>
       </div>
     </div>
@@ -1395,15 +1396,15 @@
                     </p>
                     <div class="exp-container text">
                         <div class="chat-bubble user-prompt">
-                            <img src="static/img/ir/user1.svg" alt="User Icon" class="chat-icon">
+                            <img loading="lazy" decoding="async" src="static/img/ir/user1.svg" alt="User Icon" class="chat-icon">
                             <div class="user-prompt-content">
                                 <div style="flex:1; color: #f0f0f0; font-size: 1.1em;">
                                     <div style="margin-bottom: 0.5em;">Objective: Refine the parameters of all objects in a 3D scene JSON to closely match a provided ground truth (GT) image, under a fixed camera setup.</div>
                                     <div>Goal: Achieve a refined scene JSON whose rendered image (with the fixed camera) is visually and spatially consistent with the GT image, in terms of object count, placement, size, shape, material, and inter-object relationships</div>
                                 </div>
                                 <div style="display: flex; flex-direction: column; gap: 0.5em; align-items: center;">
-                                    <img src="static/img/refine/gt.png" alt="GT" style="max-height: 80px; border-radius: 8px; border: 1.5px solid #fff;">
-                                    <img src="static/img/refine/res.png" alt="Response" style="max-height: 80px; border-radius: 8px; border: 1.5px solid #fff;">
+                                    <img loading="lazy" decoding="async" src="static/img/refine/gt.png" alt="GT" style="max-height: 80px; border-radius: 8px; border: 1.5px solid #fff;">
+                                    <img loading="lazy" decoding="async" src="static/img/refine/res.png" alt="Response" style="max-height: 80px; border-radius: 8px; border: 1.5px solid #fff;">
                                 </div>
                             </div>
                         </div>
@@ -1412,7 +1413,7 @@
 
                         <div class="agent-response-row">
                             <div class="chat-bubble vlm-response">
-                                <img src="static/img/ir/VLM.jpg" alt="VLM Icon" class="chat-icon">
+                                <img loading="lazy" decoding="async" src="static/img/ir/VLM.jpg" alt="VLM Icon" class="chat-icon">
                                 <pre id="refine-output-code" style="background-color: transparent; color: inherit; padding: 0; margin: 0; white-space: pre-wrap; font-family: monospace; font-size: inherit;">Obj1{
     "name": "brown large rubber cylinder",
     "location": [-2.0, 2.0, 1.0],
@@ -1429,8 +1430,8 @@
                             <div class="flow-arrow">&rarr;</div>
 
                             <div class="blender-container">
-                                <img src="static/img/refine/refine_video.gif" alt="Blender Render GIF" class="blender-gif">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/120px-Blender_logo_no_text.svg.png" alt="Blender Icon" class="blender-icon-overlay">
+                                <img loading="lazy" decoding="async" src="static/img/refine/refine_video.gif" alt="Blender Render GIF" class="blender-gif">
+                                <img loading="lazy" decoding="async" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Blender_logo_no_text.svg/120px-Blender_logo_no_text.svg.png" alt="Blender Icon" class="blender-icon-overlay">
                             </div>
                         </div>
                     </div>
@@ -1472,13 +1473,11 @@
         </d-appendix>
         <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
         
-        <script src="./static/js/nav-bar.js"></script>
     </body>
 </html>
 
         </d-appendix>
         <!-- bibliography will be inlined during Distill pipeline's pre-rendering -->
-        <script src="./static/js/nav-bar.js"></script>
     </body>
 </html>
 
