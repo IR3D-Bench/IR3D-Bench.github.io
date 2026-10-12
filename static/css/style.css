@@ -359,11 +359,6 @@ d-article .reconstruction-pair figure {
   background: #fff;
 }
 
-.related-card-ours {
-  border-color: #ad7831;
-  background: #fffaf0;
-}
-
 .related-preview {
   display: block;
   border-bottom: 1px solid #e3e8ec;
@@ -387,7 +382,7 @@ d-article .reconstruction-pair figure {
   color: #526477;
 }
 
-.related-card h4 {
+.related-card h3 {
   margin: 4px 0;
   font-size: 18px;
   line-height: 1.25;
@@ -399,6 +394,11 @@ d-article .reconstruction-pair figure {
   margin: 4px 0 6px;
   font-size: 15px;
   line-height: 1.4;
+}
+
+.related-card .related-authors {
+  color: #526477;
+  font-size: 14px;
 }
 
 @media (max-width: 480px) {

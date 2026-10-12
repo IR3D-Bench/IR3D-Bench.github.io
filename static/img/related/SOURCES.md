@@ -2,6 +2,22 @@
 
 Thumbnails used for scholarly comparison and attribution. Downloaded from the official project pages on 2026-10-11, resized and letterboxed without cropping to 640 x 360 WebP. Dates shown in the gallery are first arXiv submission dates, not claims about influence or earliest release elsewhere. Original images remain credited to their respective authors; inclusion does not imply endorsement or a new reuse license.
 
+The page separates IR3D-Bench from the external reading list. The older IR3D preview is retained below as an asset provenance record, but is no longer shown as a related-work card. Inclusion does not imply collaboration, endorsement, direct influence, or priority.
+
+Card bylines use the first-listed author followed by "et al."; this is bibliographic shorthand, not a claim of sole authorship or sole first authorship. Author order and first-submission dates were checked against the linked arXiv abstract pages on 2026-10-12:
+
+| Work | Card byline | Attribution source |
+| --- | --- | --- |
+| VIGA / BlenderBench | Shaofeng Yin et al. | https://arxiv.org/abs/2601.11109 |
+| VisPhyWorld / VisPhyBench | Jiarong Liang et al. | https://arxiv.org/abs/2602.13294 |
+| Code2Worlds / Code4D | Yi Zhang et al. | https://arxiv.org/abs/2602.11757 |
+| PhysCodeBench | Tianyidan Xie et al. | https://arxiv.org/abs/2604.23580 |
+| 3DCodeBench | Yipeng Gao et al. | https://arxiv.org/abs/2606.01057 |
+| Code as Worlds | Hanyang Wang et al. | https://arxiv.org/abs/2608.27549 |
+| 4DCodeBench | Ruihong Shen et al. | https://arxiv.org/abs/2610.03715 |
+
+Image reuse permissions have not been individually verified. Attribution records do not establish permission to reuse an image.
+
 | Work | Official project | Original image | Paper / arXiv v1 date |
 | --- | --- | --- | --- |
 | IR3D-Bench | https://ir3d-bench.github.io/ | Existing paired examples: static/img/comp/gt5.png and gemini5.png | https://arxiv.org/abs/2506.23329v1 / 2025-06-29 |
